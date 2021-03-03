@@ -5,6 +5,7 @@ using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ namespace API.Controllers
         {
             _tokenService = tokenService;
         }
+        
 
         [HttpPost("register")]
         public async Task<ActionResult<AdminDTO>> Register(RegisterDTO registerDTO)
@@ -46,7 +48,7 @@ namespace API.Controllers
             };
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<ActionResult<AdminDTO>> Login(LoginDTO loginDTO)
         {
             var loggedAdmin = await _context.Admins.SingleOrDefaultAsync(u => u.UserName == loginDTO.UserName);

@@ -5,7 +5,7 @@ nav.navbar > ul
     gap: 2px;
 }
 
-ul.navrow
+ul.navrow, ul.navrow > div
 {
     display: flex;
     justify-content: flex-start;
@@ -17,13 +17,13 @@ ul.navrow
 }
 
 
-ul.navrow > li
+ul.navrow > li, ul.navrow > div > li
 {
     display: flex;
     justify-content: center;
     justify-items: stretch;
     align-items: center;
-    flex-basis: 140px;
+    width: 140px;
     padding-right: 0.5%;
     border-radius: 4pt;
     color: white;
@@ -32,7 +32,7 @@ ul.navrow > li
 }
 
 
-nav.navbar > ul > li:first-child > ul.navrow > li
+nav.navbar > ul > li:first-child > ul.navrow > li:not(:first-child)
 {
     background-color: rgba(40, 88, 143, .5);
 }
@@ -44,7 +44,7 @@ nav.navbar > ul > li:first-child > ul.navrow > li
         cursor: unset;
     }
 
-nav.navbar > ul > li:nth-child(2) > ul.navrow > li
+nav.navbar > ul > li:nth-child(2) > ul.navrow > li:not(:first-child)
 {
     background-color: rgba(40, 143, 138, .5);
 }
@@ -53,9 +53,10 @@ nav.navbar > ul > li:nth-child(2) > ul.navrow > li
         background-color: none;
         background-image: linear-gradient(90deg,rgba(40, 143, 138, 0), rgba(40, 143, 138, 1));
         padding-left: 6%;
+        cursor: unset;
     }
 
-nav.navbar > ul > li:nth-child(3) > ul.navrow > li
+nav.navbar > ul > li:nth-child(3) > ul.navrow > li:not(:first-child)
 {
     background-color: rgba(40, 143, 81, .5);
 }
@@ -64,9 +65,10 @@ nav.navbar > ul > li:nth-child(3) > ul.navrow > li
         background-color: none;
         background-image: linear-gradient(90deg,rgba(40, 143, 81, 0), rgba(40, 143, 81, 1));
         padding-left: 9%;
+        cursor: unset;
     }
 
-nav.navbar > ul > li:nth-child(4) > ul.navrow > li
+nav.navbar > ul > li:nth-child(4) > ul.navrow > li:not(:first-child)
 {
     background-color: rgba(57, 143, 40, .5);
 }    
@@ -75,9 +77,10 @@ nav.navbar > ul > li:nth-child(4) > ul.navrow > li
         background-color: none;
         background-image: linear-gradient(90deg,rgba(57, 143, 40, 0), rgba(57, 143, 40, 1));
         padding-left: 12%;
+        cursor: unset;
     }
 
-nav.navbar > ul > li:nth-child(5) > ul.navrow > li
+nav.navbar > ul > li:nth-child(5) > ul.navrow > li:not(:first-child)
 {
     background-color: rgba(134, 143, 40, .5); 
 }
@@ -86,6 +89,7 @@ nav.navbar > ul > li:nth-child(5) > ul.navrow > li
         background-color: none;
         background-image: linear-gradient(90deg,rgba(134, 143, 40, 0), rgba(134, 143, 40, 1));
         padding-left: 15%;
+        cursor: unset;
     }
 
 .btn

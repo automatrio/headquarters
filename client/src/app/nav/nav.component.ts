@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-nav',
@@ -9,8 +11,11 @@ export class NavComponent implements OnInit {
 
   hoverables: HTMLCollectionOf<Element> = document.getElementsByClassName("hoverable");
   originalBackgroundColor: string;
+  loginDropdownToggle: boolean = false;
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
   }
@@ -37,5 +42,16 @@ export class NavComponent implements OnInit {
     let rgb = firstSplit.split(",");
 
     element.style.backgroundColor = "rgba("+rgb[0]+","+rgb[1]+","+rgb[2]+", 0.5)";
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(LoginDialogComponent, {
+      width: '250px',
+      panelClass: 'custom-loginPanel'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

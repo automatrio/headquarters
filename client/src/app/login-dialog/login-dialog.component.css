@@ -1,0 +1,55 @@
+.loginForm
+{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttonRow
+{
+    display:flex;
+    flex-direction: row;
+    padding: 4px;
+}
+
+input
+{
+    height: 25px;
+    margin-bottom: 4px;
+    width: 100%;
+    border: 1px solid #555; 
+    border-radius: 2px;
+}
+
+.loginButton
+{
+    background-color: rgb(81, 255, 119,.75);
+    padding: 8px;
+    margin: 2px;
+    border: 2px solid darkolivegreen;
+    width: 75px;
+    border-radius: 2px;
+    color: darkolivegreen;
+}
+
+.loginButton:hover
+{
+    background-color: rgb(81, 255, 119,.5);
+}
+
+.cancelButton
+{
+    background-color: rgb(150, 150, 150, .75);
+    padding: 8px;
+    margin: 2px;
+    border: 2px solid darkolivegreen;
+    width: 75px;
+    border-radius: 2px;
+    color: darkolivegreen;
+}
+
+.cancelButton:hover
+{
+    background-color: rgb(150, 150, 150, .5);;
+}

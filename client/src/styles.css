@@ -9,3 +9,12 @@ html
 {
     background-image: linear-gradient(90deg, black, rgb(0, 140, 255));
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.custom-loginPanel >  mat-dialog-container {
+    background: none;
+    background-image: linear-gradient(90deg,rgba(255,255,255,.5), rgba(255,255,255,1));
+    border-radius: 12px;
+    box-shadow: 12px 12px 6px rgba(0, 0, 0, 0.7);
+}

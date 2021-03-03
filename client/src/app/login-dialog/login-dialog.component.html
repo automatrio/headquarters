@@ -1,0 +1,34 @@
+<form
+    #loginForm="ngForm"
+    class="loginForm"
+    (ngSubmit)="login()"
+    autocomplete="off">
+
+    <input matInput
+        name="login"
+        type="text"
+        placeholder="Username"
+        [(ngModel)]="loginModel.username"
+        >
+    <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="loginModel.password"
+        >
+    <div class="buttonRow">
+        <button
+            class="loginButton"
+            type="submit"
+        >
+            Login
+        </button>
+        <button 
+            class="cancelButton"
+            type="button"
+            (click)="cancel()"
+        >
+            Cancel
+        </button>
+    </div>
+</form>

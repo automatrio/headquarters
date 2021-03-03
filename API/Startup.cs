@@ -1,6 +1,7 @@
 using API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,15 +30,18 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseDeveloperExceptionPage();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-		    app.UseCors(options => {
-                options.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
-            });
+		    app.UseCors(options =>
+                options.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200/").AllowCredentials());
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

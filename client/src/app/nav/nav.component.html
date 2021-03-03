@@ -36,8 +36,14 @@
         <li>
             <ul class="navrow" id="row5">
                 <li>Admin</li>
-                <li class="hoverable" (mouseenter)="highlight($event)" (mouseleave)="reset($event)">Log In</li>
+                <li 
+                    class="hoverable"
+                    (mouseenter)="highlight($event)"
+                    (mouseleave)="reset($event)"
+                    (click)="openDialog()"
+                    >Login</li>
             </ul>
         </li>
+
     </ul>
 </nav>
