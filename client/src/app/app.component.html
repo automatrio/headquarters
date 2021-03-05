@@ -1,17 +1,23 @@
-
 <html>
 <head>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap" rel="stylesheet"> 
   <style>
-    html {
+    * {
         font-family: 'Rajdhani', sans-serif;
         padding: 0%;
         margin: 0%;
+        color: white;
     }
   </style>
 </head>
 
-<app-nav></app-nav>
+<header>
+  <app-nav></app-nav>
+</header>
+
+<body>
+  <router-outlet></router-outlet>
+</body>
 
 </html>

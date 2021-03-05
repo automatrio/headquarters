@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -22,6 +23,14 @@ namespace API.Extensions
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+                })
+                .AddGoogle("Google", options =>
+                {
+                    var googleAuth = config.GetSection("Authentication:Google");
+
+                    options.ClientId = googleAuth["ClientId"];
+                    options.ClientSecret = googleAuth["ClientSecret"];
+                    options.SignInScheme = IdentityConstants.ExternalScheme; // used to identify external schemes
                 });
 
             return services;

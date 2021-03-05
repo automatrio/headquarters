@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Observable, ReplaySubject } from 'rxjs';
 import { AccountService } from '../_services/account.service';
+import { ToastService } from '../_services/toast.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -10,10 +12,13 @@ import { AccountService } from '../_services/account.service';
 export class LoginDialogComponent implements OnInit {
 
   loginModel: any = {};
-
+  errorMessageSource = new ReplaySubject<string>(1);
+  errorMessage$: Observable<string> = this.errorMessageSource;
+  
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private toast: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -22,9 +27,17 @@ export class LoginDialogComponent implements OnInit {
   login()
   {
     this.accountService.login(this.loginModel).subscribe(
-      response => console.log(response),
-      error => console.log(error.error) // improve
+      response =>
+      {
+        console.log(response);
+        this.dialogRef.close();
+      },
+      error => 
+      { 
+        this.errorMessageSource.next(error.error);
+      }
     );
+    
   }
 
   cancel(): void {

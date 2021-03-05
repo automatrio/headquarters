@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
+import { User } from '../_models/user';
+import { AccountService } from '../_services/account.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../_services/toast.service';
 
 @Component({
   selector: 'app-nav',
@@ -12,12 +18,18 @@ export class NavComponent implements OnInit {
   hoverables: HTMLCollectionOf<Element> = document.getElementsByClassName("hoverable");
   originalBackgroundColor: string;
   loginDropdownToggle: boolean = false;
+  currentUser$: Observable<User>;
+  greetUser: User;
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public accountService: AccountService,
+    private router: Router,
+    private toast: ToastService
   ) { }
 
   ngOnInit(): void {
+    this.currentUser$ = this.accountService.currentUser$;
   }
 
   RGBA_toString(red: number, green: number, blue: number, alpha: number): string {
@@ -50,8 +62,19 @@ export class NavComponent implements OnInit {
       panelClass: 'custom-loginPanel'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.componentInstance.errorMessage$.subscribe(
+      result =>
+      {
+        this.toast.displayError(result as string);
+        console.log(result as string);
+      }
+    )
+  }
+
+  logout()
+  {
+    this.accountService.logout();
+    this.router.navigateByUrl('/');
+    this.toast.displayQuickMessage("Good-bye!");
   }
 }

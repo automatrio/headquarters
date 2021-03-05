@@ -2,7 +2,7 @@
     <ul>
         <li>
             <ul class="navrow">
-                <li>DevLogs</li>
+                <li routerLink="/devlogs" routerLinkActive='active'>DevLogs</li>
                 <li class="hoverable" (mouseenter)="highlight($event)" (mouseleave)="reset($event)">S.T.R.O.B.O.T.S</li>
                 <li class="hoverable" (mouseenter)="highlight($event)" (mouseleave)="reset($event)">Headquarters</li>
             </ul>
@@ -10,7 +10,7 @@
 
         <li>
             <ul class="navrow" id="row2">
-                <li>Portfolio</li>
+                <li routerLink="/portfolio" routerLinkActive='active'>Portfolio</li>
                 <li class="hoverable" (mouseenter)="highlight($event)" (mouseleave)="reset($event)">3D Modelling</li>
                 <li class="hoverable" (mouseenter)="highlight($event)" (mouseleave)="reset($event)">Music</li>
             </ul>
@@ -18,7 +18,7 @@
 
         <li>
             <ul class="navrow" id="row3">
-                <li>Skilltree</li>
+                <li routerLink="/skilltree" routerLinkActive='active'>Skilltree</li>
                 <li class="hoverable" (mouseenter)="highlight($event)" (mouseleave)="reset($event)">Languages</li>
                 <li class="hoverable" (mouseenter)="highlight($event)" (mouseleave)="reset($event)">Programming</li>
                 <li class="hoverable" (mouseenter)="highlight($event)" (mouseleave)="reset($event)">Miscellanenous</li>
@@ -38,10 +38,18 @@
                 <li>Admin</li>
                 <li 
                     class="hoverable"
+                    *ngIf="(this.accountService.currentUser$ | async) == null"
                     (mouseenter)="highlight($event)"
                     (mouseleave)="reset($event)"
                     (click)="openDialog()"
                     >Login</li>
+                <li 
+                    class="hoverable"
+                    *ngIf="this.accountService.currentUser$ | async"
+                    (mouseenter)="highlight($event)"
+                    (mouseleave)="reset($event)"
+                    (click)="logout()"
+                    >Logout</li>
             </ul>
         </li>
 
