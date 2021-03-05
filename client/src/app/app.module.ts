@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavComponent } from './nav/nav.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar'
@@ -14,6 +14,10 @@ import { PortfolioComponent } from './portfolio/portfolio/portfolio.component';
 import { SkilltreeComponent } from './skilltree/skilltree/skilltree.component';
 import { DevlogsComponent } from './devlogs/devlogs/devlogs.component';
 import { HomeComponent } from './home/home.component';
+import { ContentManagerComponent } from './content-manager/content-manager.component';
+import { SharedModule } from './_modules/shared.module';
+import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -23,19 +27,22 @@ import { HomeComponent } from './home/home.component';
     PortfolioComponent,
     SkilltreeComponent,
     DevlogsComponent,
-    HomeComponent
+    HomeComponent,
+    ContentManagerComponent,
+    TestErrorsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatSnackBarModule
+    SharedModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

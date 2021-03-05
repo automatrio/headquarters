@@ -48,8 +48,21 @@
                     *ngIf="this.accountService.currentUser$ | async"
                     (mouseenter)="highlight($event)"
                     (mouseleave)="reset($event)"
+                    routerLink='/manager'
+                    >Manage Content</li>
+                <li 
+                    class="hoverable"
+                    *ngIf="this.accountService.currentUser$ | async"
+                    (mouseenter)="highlight($event)"
+                    (mouseleave)="reset($event)"
                     (click)="logout()"
                     >Logout</li>
+                <li 
+                    class="hoverable"
+                    (mouseenter)="highlight($event)"
+                    (mouseleave)="reset($event)"
+                    routerLink='/errors'
+                    >Debug</li>
             </ul>
         </li>
 

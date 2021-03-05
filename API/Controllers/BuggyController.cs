@@ -1,0 +1,51 @@
+using System;
+using API.Data;
+using API.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace API.Controllers
+{
+    public class BuggyController : BaseApiController
+    {
+        public BuggyController(DataContext context) : base(context)
+        {
+        }
+    
+        [Authorize]
+        [HttpGet("auth")]
+        public ActionResult<string> GetSecret()
+        {
+            return "secret text";
+        }
+
+        [HttpGet("not-found")]
+        public ActionResult<Admin> GetNotFound()
+        {
+            var thing  = _context.Admins.Find(-1);
+
+            if(thing is null)
+            {
+                return NotFound();
+            } 
+            else
+            {
+                return Ok(thing);
+            }
+        }
+
+        [HttpGet("server-error")]
+        public ActionResult<string> GetServerError()
+        {
+            var thing = _context.Admins.Find(-1);
+
+            return thing.ToString(); // this method breaks when applied to null
+        }
+
+        [HttpGet("bad-request")]
+        public ActionResult<string> GetBadRequest()
+        {
+            return BadRequest("This was not a good request.");
+        }
+    }
+}

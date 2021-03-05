@@ -5,8 +5,6 @@ using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,12 +13,10 @@ namespace API.Controllers
     public class AccountController : BaseApiController
     {
         private ITokenService _tokenService;
-        // private SignInManager<AdminDTO> _signInManager;
-        
-        public AccountController(DataContext context, ITokenService tokenService, SignInManager<AdminDTO> signInManager) : base(context)
+
+        public AccountController(DataContext context, ITokenService tokenService) : base(context)
         {
             _tokenService = tokenService;
-            // _signInManager = signInManager;
         }
         
 
@@ -52,7 +48,7 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AdminDTO>> LocalLogin(LoginDTO loginDTO)
+        public async Task<ActionResult<AdminDTO>> Login(LoginDTO loginDTO)
         {
             var loggedAdmin = await _context.Admins.SingleOrDefaultAsync(u => u.UserName == loginDTO.UserName);
 
@@ -77,14 +73,6 @@ namespace API.Controllers
                 Token = _tokenService.CreateToken(loggedAdmin)
             };
         }
-
-        // [HttpPost("google-login")]
-        // public IActionResult ExternalLogin(string provider, string returnUrl = null)
-        // {
-        //     var redirectUrl = Url.Action(nameof(ExternalLoginCallback));
-        //     var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);;
-        //     return Challenge(properties, provider);
-        // }
 
         private async Task<bool> AdminExists(string username)
         {
