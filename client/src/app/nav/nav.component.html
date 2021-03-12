@@ -41,7 +41,7 @@
                     *ngIf="(this.accountService.currentUser$ | async) == null"
                     (mouseenter)="highlight($event)"
                     (mouseleave)="reset($event)"
-                    (click)="openDialog()"
+                    (click)="openLoginDialog()"
                     >Login</li>
                 <li 
                     class="hoverable"

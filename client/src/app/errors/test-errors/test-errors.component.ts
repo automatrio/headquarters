@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ToastData } from 'src/app/toast/toast-config';
 import { ToastService } from 'src/app/_services/toast.service';
 
 @Component({
@@ -41,6 +42,15 @@ export class TestErrorsComponent implements OnInit {
     this.http.get(this.baseUrl + "buggy/server-error").subscribe(
       response => console.log(response),
       error => this.toast.displayError(error.error)
+    );
+  }
+
+  testToast() {
+    this.toast.displayToast(
+      {
+        text: 'Toast message',
+        type: 'success'
+      }
     );
   }
 }

@@ -1,34 +1,44 @@
-<form
+<div class="login-dialog-content"
+[@slide]='slideState'
+(@slide.start)="onAnimationStart($event)" 
+(@slide.done)="onAnimationDone($event)"
+>
+    <form
     #loginForm="ngForm"
     class="loginForm"
     (ngSubmit)="login()"
-    autocomplete="off">
+    autocomplete="off"
+    [@slide]='slideState'
+    >
 
-    <input matInput
-        name="login"
-        type="text"
-        placeholder="Username"
-        [(ngModel)]="loginModel.username"
-        >
-    <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        [(ngModel)]="loginModel.password"
-        >
-    <div class="buttonRow">
-        <button
-            class="loginButton"
-            type="submit"
-        >
-            Login
-        </button>
-        <button 
-            class="cancelButton"
-            type="button"
-            (click)="cancel()"
-        >
-            Cancel
-        </button>
-    </div>
-</form>
+        <input matInput
+            name="login"
+            type="text"
+            placeholder="Username"
+            autocomplete="off"
+            [(ngModel)]="loginModel.username"
+            >
+        <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="off"
+            [(ngModel)]="loginModel.password"
+            >
+        <div class="buttonRow">
+            <button
+                class="loginButton"
+                type="submit"
+            >
+                Login
+            </button>
+            <button 
+                class="cancelButton"
+                type="button"
+                (click)="cancel()"
+            >
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>

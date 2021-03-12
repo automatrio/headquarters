@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -18,6 +17,11 @@ import { ContentManagerComponent } from './content-manager/content-manager.compo
 import { SharedModule } from './_modules/shared.module';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { ToastModule } from './_modules/toast.module';
+import { MatIconModule } from '@angular/material/icon';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { LoginDialogOverlayService } from './_services/login-dialog-overlay.service';
+import { LoginDialogModule } from './_modules/login-dialog.module';
 
 @NgModule({
   declarations: [
@@ -35,14 +39,19 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    OverlayModule,
+    ToastModule.forRoot(),
+    LoginDialogModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi: true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

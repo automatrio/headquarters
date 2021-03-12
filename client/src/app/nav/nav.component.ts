@@ -7,6 +7,8 @@ import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToastService } from '../_services/toast.service';
+import { LoginDialogOverlayRef } from '../login-dialog/login-dialog-overlay-ref';
+import { LoginDialogOverlayService } from '../_services/login-dialog-overlay.service';
 
 @Component({
   selector: 'app-nav',
@@ -17,12 +19,11 @@ export class NavComponent implements OnInit {
 
   hoverables: HTMLCollectionOf<Element> = document.getElementsByClassName("hoverable");
   originalBackgroundColor: string;
-  loginDropdownToggle: boolean = false;
   currentUser$: Observable<User>;
   greetUser: User;
 
   constructor(
-    public dialog: MatDialog,
+    private loginDialog: LoginDialogOverlayService,
     public accountService: AccountService,
     private router: Router,
     private toast: ToastService
@@ -56,19 +57,8 @@ export class NavComponent implements OnInit {
     element.style.backgroundColor = "rgba("+rgb[0]+","+rgb[1]+","+rgb[2]+", 0.5)";
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: '250px',
-      panelClass: 'custom-loginPanel'
-    });
-
-    dialogRef.componentInstance.errorMessage$.subscribe(
-      result =>
-      {
-        this.toast.displayError(result as string);
-        console.log(result as string);
-      }
-    )
+  openLoginDialog(): void {
+    let currentDialogRef = this.loginDialog.open();
   }
 
   logout()

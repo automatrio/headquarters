@@ -73,7 +73,6 @@ namespace API.Controllers
                 Token = _tokenService.CreateToken(loggedAdmin)
             };
         }
-
         private async Task<bool> AdminExists(string username)
         {
             return await _context.Admins.AnyAsync(u => u.UserName == username.ToLower());
