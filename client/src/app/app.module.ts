@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LoginDialogOverlayService } from './_services/login-dialog-overlay.service';
 import { LoginDialogModule } from './_modules/login-dialog.module';
+import { ToastComponent } from './toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -45,8 +46,8 @@ import { LoginDialogModule } from './_modules/login-dialog.module';
     BrowserAnimationsModule,
     SharedModule,
     OverlayModule,
-    ToastModule.forRoot(),
-    LoginDialogModule.forRoot()
+    LoginDialogModule.forRoot(),
+    ToastModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi: true}

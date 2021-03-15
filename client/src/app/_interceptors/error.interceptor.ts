@@ -37,26 +37,24 @@ export class ErrorInterceptor implements HttpInterceptor {
                   {
                     modalStateErrors.push(error.error.errors[key]);
                   }
-                  throw modalStateErrors;
+                  throw modalStateErrors.flat();
                 }
                 else
-                {
-                  const data: ToastData = {type: 'warning', text: error.error};
-                  this.toast.displayToast(data);
-                }
-                break;
+                  this.toast.displayToast(this.displayToastMessage(error));
+                  break;
+                  
               case 401:
-                {
-                const data: ToastData = {type: 'warning', text: error.error};
-                this.toast.displayToast(data);
+                this.toast.displayToast(this.displayToastMessage(error));
                 break;
-                }
+                
+              case 404:
+                this.toast.displayToast(this.displayToastMessage(error));
+                break;
+                
               case 500:
-                {
-                const data: ToastData = {type: 'warning', text: error.error};
-                this.toast.displayToast(data);
+                this.toast.displayToast(this.displayToastMessage(error));
                 break;
-                }
+
               default:
                 break;
             }
@@ -65,44 +63,10 @@ export class ErrorInterceptor implements HttpInterceptor {
         })
     );
   }
-  // intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-  //   return next.handle(request).pipe(
-  //     catchError(error => {
-  //       if (error)
-  //       {
-  //         switch (error.status) {
-  //           case 400:
-  //             if(error.error.errors)
-  //             {
-  //               const modalStateErrors = [];
-  //               for(const key in error.error.errors)
-  //               {
-  //                 modalStateErrors.push(error.error.errors[key]);
-  //               }
-  //               throw modalStateErrors;
-  //             }
-  //             else
-  //             {
-  //               this.toast.displayError(error.error);
-  //             }
-  //             break;
 
-  //           case 401:
-  //             this.toast.displayError(error.error);
-  //             break;
-  //           case 404:
-  //             this.toast.displayError(error.error);
-  //             break;
-  //           case 500:
-  //             this.toast.displayError(error.error);
-  //             break;
+  displayToastMessage(error: HttpErrorResponse, message: string = error.statusText)
+  {
+    return {type: 'warning', text: message} as ToastData;
+  }
 
-  //           default:
-  //             break;
-  //         }
-  //       }
-  //       return throwError(error); // only if we can't catch the error at all
-  //     })
-  //   );
-  // }
 }

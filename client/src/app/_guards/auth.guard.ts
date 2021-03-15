@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ToastData } from '../toast/toast-config';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { ToastService } from '../_services/toast.service';
@@ -17,7 +18,8 @@ export class AuthGuard implements CanActivate
     return this.accountService.currentUser$.pipe(
       map((user: User) => {
         if(user) return true;
-        this.toast.displayError("Operation now allowed, please login first.");
+        const data = ({type:'warning', text:'Unauthorized. Plese login first.'}) as ToastData;
+        this.toast.displayToast(data);
       })
     )
   }

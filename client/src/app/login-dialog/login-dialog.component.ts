@@ -1,12 +1,10 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OverlayRef } from '@angular/cdk/overlay';
 import { Component, EventEmitter, HostListener, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Observable, ReplaySubject } from 'rxjs';
 import { AccountService } from '../_services/account.service';
 import { ToastService } from '../_services/toast.service';
 import { LoginDialogOverlayRef } from './login-dialog-overlay-ref';
 import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
+import { ToastData } from '../toast/toast-config';
 
 const ESCAPE = String.fromCharCode(27);
 const ANIMATION_TIMINGS = '400ms cubic-bezier(0.25, 0.8, 0.25, 1)';
@@ -47,24 +45,31 @@ export class LoginDialogComponent {
   fadeState: 'fadeIn' | 'fadeOut' = 'fadeIn';
   slideState: 'void' | 'enter' | 'leave' = 'enter';
   animationStateChanged = new EventEmitter<AnimationEvent>();
-  closeQueued: boolean;
   
   constructor(
     private loginDialogOverlayRef: LoginDialogOverlayRef,
-    private accountService: AccountService
-  ){}
+    private accountService: AccountService,
+    private toast: ToastService
+  ){
+    window.addEventListener('keydown', (event: KeyboardEvent) =>
+    {
+      if(event.key === 'Escape')
+      {
+        this.loginDialogOverlayRef.close();
+      }
+    })
+
+  }
 
   login()
   {
     this.accountService.login(this.loginModel).subscribe(
-      response =>
-      {
+      () => {
         this.loginDialogOverlayRef.close();
-        
       },
-      error => 
-      { 
-        this.errorMessageSource.next(error.error);
+      error => {
+        const data = {text: error.error, type: 'warning' } as ToastData; 
+        this.toast.displayToast(data)
       }
     );
     
@@ -74,27 +79,14 @@ export class LoginDialogComponent {
     this.loginDialogOverlayRef.close();
   }
 
-  @HostListener('document:keydown', ['$event'])
-  private handleKeyDown(event: KeyboardEvent)
-  {
-    const pressedKey = event.key || event.keyCode; 
-    if(pressedKey === "escape" || ESCAPE)
-    {
-      this.loginDialogOverlayRef.close();
-    }
-  }
-
   onAnimationStart(event: AnimationEvent)
   {
     this.animationStateChanged.emit(event);
-    //debug
-    console.log("Animation " + event.phaseName + " has started.")
   }
 
   onAnimationDone(event: AnimationEvent)
   {
     this.animationStateChanged.emit(event);
-    console.log("Animation " + event.phaseName + " has ended.")
   }
 
   startExitAnimation()

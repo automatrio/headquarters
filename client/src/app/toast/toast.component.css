@@ -1,14 +1,40 @@
-.toast {
-    position: relative;
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    padding: 10px 15px 10px 48px; 
-    width: 290px;
-    background: rgba(0,220,180,.5);
-    border-width: 1px;
-    border-style: solid;
-    border-color: #dddddd #d6d6d6 #cfcfcf;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.11);
-  }
+.toast
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-items: flex-end;
+  align-items: center;
+  width: fit-content;
+  padding: 10pt;
+  border: 2pt solid;
+  border-radius: 4pt;
+  list-style-type: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12pt;
+}
+
+ul > li
+{
+  padding-left: 10pt;
+  padding-right: 10pt;
+}
+
+.material-icons
+{
+  text-align: center;
+  padding: 0pt;
+}
+
+.material-icons.button
+{
+  padding: 0pt;
+  cursor: pointer;
+  transition: transform 200ms;
+}
+
+.material-icons.button:hover
+{
+  transform: scale(1.25);
+}
+

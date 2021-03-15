@@ -1,9 +1,32 @@
+.login-dialog-content
+{
+    background-color: rgba(255,255,255,.5);
+    border: 2pt solid rgba(204, 204, 255, 0.74);
+    border-radius: 4px;
+    padding: 20px;
+    position: relative;
+    z-index: 0;
+}
+
+.panel-title
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Rajdhani', sans-serif;
+    position: relative;
+    z-index: 1;
+}
+
+
 .loginForm
 {
     display:flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 2;
 }
 
 .buttonRow
@@ -20,6 +43,7 @@ input
     width: 100%;
     border: 1px solid #555; 
     border-radius: 2px;
+    z-index: 3;
 }
 
 .loginButton

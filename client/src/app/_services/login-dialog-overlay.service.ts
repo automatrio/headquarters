@@ -29,9 +29,6 @@ export class LoginDialogOverlayService {
     // creates a portal from and for the component
     const loginDialogPortal = new ComponentPortal(LoginDialogComponent, null, this.createInjector(loginDialogOverlayRef));
 
-    // dispose of the overlay when clicking on the background
-
-
     // attaches said portal to the PortalHost created above
     const componentRef: ComponentRef<LoginDialogComponent> = overlayRef.attach(loginDialogPortal);
     

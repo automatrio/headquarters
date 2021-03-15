@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToastService } from '../_services/toast.service';
 import { LoginDialogOverlayRef } from '../login-dialog/login-dialog-overlay-ref';
 import { LoginDialogOverlayService } from '../_services/login-dialog-overlay.service';
+import { ToastData } from '../toast/toast-config';
 
 @Component({
   selector: 'app-nav',
@@ -65,6 +66,7 @@ export class NavComponent implements OnInit {
   {
     this.accountService.logout();
     this.router.navigateByUrl('/');
-    this.toast.displayQuickMessage("Good-bye!");
+    const data = {type:'success', text:'Good-bye!'} as ToastData;
+    this.toast.displayToast(data);
   }
 }

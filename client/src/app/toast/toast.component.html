@@ -1,5 +1,18 @@
-<div class="toast">
-    <i class="material-icons">done</i>
-    <div>{{ data.text }}}</div>
-    <i class="material-icons" (click)="close()">close</i>
+<div 
+    class='toast-content'
+    [@fade]='fadeState'
+    [@slide]='slideState'
+    (@slide.start)='onAnimationStarted($event)'
+    (@slide.done)='onAnimationEnded($event)'>
+    <ul
+        class="toast"
+        [ngStyle]="{'background-color': configureStyle()}">
+
+        <li class="material-icons">{{ iconType }}</li>
+
+        <li>{{ data.text }}<li>
+
+        <li class="material-icons button" (click)="close()">close<li>
+
+    </ul>
 </div>

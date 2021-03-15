@@ -18,39 +18,18 @@ export class TestErrorsComponent implements OnInit {
   }
 
   get404error() {
-    this.http.get(this.baseUrl + "buggy/not-found").subscribe(
-      response => console.log(response),
-      error => this.toast.displayError(error.error)
-    );
+    this.http.get(this.baseUrl + "buggy/not-found").subscribe();
   }
 
   get400error() {
-    this.http.get(this.baseUrl + "buggy/bad-request").subscribe(
-      response => console.log(response),
-      error => this.toast.displayError(error.error)
-    );
+    this.http.get(this.baseUrl + "buggy/bad-request").subscribe();
   }
 
   get401error() {
-    this.http.get(this.baseUrl + "buggy/auth").subscribe(
-      response => console.log(response),
-      error => this.toast.displayError(error.error)
-    );
+    this.http.get(this.baseUrl + "buggy/auth").subscribe();
   }
 
   get500error() {
-    this.http.get(this.baseUrl + "buggy/server-error").subscribe(
-      response => console.log(response),
-      error => this.toast.displayError(error.error)
-    );
-  }
-
-  testToast() {
-    this.toast.displayToast(
-      {
-        text: 'Toast message',
-        type: 'success'
-      }
-    );
+    this.http.get(this.baseUrl + "buggy/server-error").subscribe();
   }
 }

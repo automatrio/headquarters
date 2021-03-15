@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { browser } from 'protractor';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../_models/user';
 
@@ -10,12 +9,17 @@ import { User } from '../_models/user';
 })
 export class AccountService {
 
+  private http: HttpClient;
+
   baseUrl: string = 'https://localhost:5001/api/';
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(
-    private http: HttpClient) { }
+    private httpBackend: HttpBackend)
+    {
+      this.http = new HttpClient(httpBackend);
+    }
 
   login(model: any)
   {
