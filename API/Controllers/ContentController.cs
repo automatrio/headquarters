@@ -5,14 +5,16 @@ namespace API.Controllers
 {
     public class ContentController : BaseApiController
     {
-        public ContentController(DataContext context) : base(context)
+        private readonly DataContext _context;
+        public ContentController(DataContext context)
         {
+            _context = context;
         }
 
         // [HttpPost]
         // public async void CreatePicture()
         // {
-            
+
         // }
     }
 }

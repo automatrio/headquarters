@@ -8,10 +8,12 @@ namespace API.Controllers
 {
     public class BuggyController : BaseApiController
     {
-        public BuggyController(DataContext context) : base(context)
+        private readonly DataContext _context;
+        public BuggyController(DataContext context)
         {
+            _context = context;
         }
-    
+
         [Authorize]
         [HttpGet("auth")]
         public ActionResult<string> GetSecret()
@@ -22,12 +24,12 @@ namespace API.Controllers
         [HttpGet("not-found")]
         public ActionResult<Admin> GetNotFound()
         {
-            var thing  = _context.Admins.Find(-1);
+            var thing = _context.Admins.Find(-1);
 
-            if(thing is null)
+            if (thing is null)
             {
                 return NotFound();
-            } 
+            }
             else
             {
                 return Ok(thing);

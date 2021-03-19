@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.DTOs;
 using API.Entities;
+using API.Repository;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,36 +15,34 @@ namespace API.Controllers
 {
     public class AdminsController : BaseApiController
     {
-        public AdminsController(DataContext context) : base(context)
+        private readonly IAdminRepository _adminRepository;
+        private readonly IMapper _mapper;
+        public AdminsController(IAdminRepository adminRepository, IMapper mapper)
         {
+            _mapper = mapper;
+            _adminRepository = adminRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Admin>>> GetAdmins(int adminId)
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<PublicAdminDTO>>> GetAdmins(int adminId)
         {
-            try
-            {
-                return await _context.Admins.ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
+            var admins = await _adminRepository.GetAdminsAsync();
+            return Ok(
+                _mapper.Map<IEnumerable<PublicAdminDTO>>(admins)
+            );
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Admin>> GetAdmin(int adminId)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<PublicAdminDTO>> GetAdmin(string username)
         {
-            try
-            {
-                return await _context.Admins.FindAsync(adminId);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
+            return await _adminRepository.GetAdminByUsernameAsync(username);
+        }
+
+        [HttpGet("{username}/{pictureId}")]
+        public async Task<ActionResult<PictureDTO>> GetPictureFromAdminAsync(string username, int pictureId)
+        {
+            return _mapper.Map<PictureDTO>(await _adminRepository.GetPictureFromAdminAsync(username, pictureId));
         }
     }
 }

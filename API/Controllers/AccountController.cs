@@ -13,17 +13,19 @@ namespace API.Controllers
     public class AccountController : BaseApiController
     {
         private ITokenService _tokenService;
+        private readonly DataContext _context;
 
-        public AccountController(DataContext context, ITokenService tokenService) : base(context)
+        public AccountController(DataContext context, ITokenService tokenService)
         {
+            _context = context;
             _tokenService = tokenService;
         }
-        
+
 
         [HttpPost("register")]
         public async Task<ActionResult<AdminDTO>> Register(RegisterDTO registerDTO)
         {
-            if(await AdminExists(registerDTO.UserName))
+            if (await AdminExists(registerDTO.UserName))
             {
                 return BadRequest("Username taken, please choose another.");
             }
@@ -52,15 +54,15 @@ namespace API.Controllers
         {
             var loggedAdmin = await _context.Admins.SingleOrDefaultAsync(u => u.UserName == loginDTO.UserName);
 
-            if(loggedAdmin == null) return BadRequest("Invalid username");
-            
-            using(var hmac = new HMACSHA512(loggedAdmin.PasswordSalt))
+            if (loggedAdmin == null) return BadRequest("Invalid username");
+
+            using (var hmac = new HMACSHA512(loggedAdmin.PasswordSalt))
             {
                 var computedHash = hmac.ComputeHash(loginDTO.Password.ToByteArray());
 
                 for (int i = 0; i < loggedAdmin.PasswordHash.Length; i++)
                 {
-                    if(loggedAdmin.PasswordHash[i] != computedHash[i])
+                    if (loggedAdmin.PasswordHash[i] != computedHash[i])
                     {
                         return BadRequest("Invalid password");
                     }
