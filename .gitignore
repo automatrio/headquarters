@@ -505,3 +505,4 @@ tools/gulp-tasks/cldr/cldr-data/
 
 # Husky
 .husky/_
+client_obsolete/
