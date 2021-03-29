@@ -22,7 +22,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddApplicationServices(_config);
             services.AddAuthenticationServices(_config);
         }

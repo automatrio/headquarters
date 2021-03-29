@@ -36,9 +36,6 @@ namespace API.Repository
         public async Task<IEnumerable<Admin>> GetAdminsAsync()
         {
             return await _context.Admins
-                .Include(admin => admin.Pictures)
-                .Include(admin => admin.Music)
-                .Include(admin => admin.Models3D)
                 .ToListAsync();
             
         }

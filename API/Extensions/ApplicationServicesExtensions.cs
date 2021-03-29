@@ -1,6 +1,8 @@
 using API.Data;
 using API.Helpers;
 using API.Repository;
+using API.Repository.BlogPostRepository;
+using API.Repository.MediaRepository;
 using API.Services;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +19,8 @@ namespace API.Extensions
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IMediaRepository, MediaRepository>();
+            services.AddScoped<IBlogPostRepository, BlogPostRepository>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
             services.AddDbContext<DataContext>(options =>

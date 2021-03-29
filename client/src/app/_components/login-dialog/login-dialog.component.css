@@ -1,0 +1,82 @@
+.login-dialog-content
+{
+    background-color: rgba(255,255,255,.8);
+    border: 2pt solid white;
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+}
+
+.panel-title
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 20px;
+}
+
+
+.login-form
+{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.button-row
+{
+    display:flex;
+    flex-direction: row;
+    padding: 4px;
+}
+
+input
+{
+    height: 25px;
+    margin-bottom: 4px;
+    width: 100%;
+    border: 1px solid #555; 
+    border-radius: 2px;
+    z-index: 3;
+}
+
+.login-button
+{
+    background-color: rgb(81, 255, 119,.75);
+    padding: 8px;
+    margin: 2px;
+    border: 2px solid rgb(91, 168, 80);
+    width: 75px;
+    border-radius: 4px;
+    color: rgb(36, 36, 36);
+}
+
+.login-button:hover
+{
+    background-color: rgb(171, 241, 188);
+}
+
+.cancel-button
+{
+    
+    background-color: rgb(150, 150, 150, .5);
+    padding: 8px;
+    margin: 2px;
+    border: 2px solid rgb(136, 136, 136);
+    width: 75px;
+    border-radius: 4px;
+    color: rgb(36, 36, 36);
+}
+
+.cancel-button:hover
+{
+    background-color: rgb(192, 192, 192);
+}

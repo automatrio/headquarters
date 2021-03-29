@@ -1,9 +1,7 @@
 namespace API.DTOs
 {
-    public class Model3DDTO
+    public class Model3DDTO : MediaDTO
     {
-        public int Id { get; set; }
-        public string Url { get; set; }
-        public string Description { get; set; }
+        public string EmbedHtml { get; set; }
     }
 }

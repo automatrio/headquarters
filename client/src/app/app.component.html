@@ -1,0 +1,13 @@
+<mat-toolbar 
+  class="navbar"
+  *ngIf="isNavbar"
+>
+  <app-navbar (switchMenusEvent)="switchNavMenus($event)"></app-navbar>
+</mat-toolbar>
+
+
+
+
+<body>
+  <router-outlet></router-outlet>
+</body>

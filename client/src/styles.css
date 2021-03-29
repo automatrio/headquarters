@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; color: white}
+body {
+    margin: 0;
+    background-image: linear-gradient(90deg, black, rgb(77, 100, 116))
+}
+
+.navbar:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    height: fit-content;
+    background: none;
+    font-size: 12pt;
+    padding: 0%;
+    z-index: 2;
+}
+
+.navpie-backdrop {
+    background: #000;
+    opacity: 0.85 !important;
+}
+

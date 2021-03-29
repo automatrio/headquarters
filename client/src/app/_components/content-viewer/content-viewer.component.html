@@ -1,0 +1,35 @@
+<div class="container">
+
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav mode="side" opened>
+            
+        <img 
+            class="logo"
+            src="https://lh3.googleusercontent.com/pw/ACtC-3dB5YVQABd2KZzq5xJ8rI6OKSaX5to-SjGH3nIbXTl61f73oHv3bbP8Pk84NT5vAWM92dlbIKvBPtgGCb9nOgt8MSRvmN1t2JXGd0zj5T2DceVKtEbJNNIqH-Ru_Fc-sLzhIDC_pDO5GgUZayViugQ=s120-no?authuser=0"
+            (click)="displayNavpie()"
+            >
+
+        <ul class="button-cascade">
+            <li 
+                *ngFor="let blogPost of blogPosts" >
+                <button
+                    (click)="changeIndex($event)"
+                    id="{{blogPost.id}}"> {{blogPost.title}} </button>
+            </li>
+        </ul>
+
+        </mat-sidenav>
+        
+        <mat-sidenav-content>
+        
+            <cdk-virtual-scroll-viewport itemSize="50" class="text-viewport">
+                <div>
+                    {{blogPosts[index]?.content}}
+                </div>
+            </cdk-virtual-scroll-viewport>
+        
+        </mat-sidenav-content>
+      
+    </mat-sidenav-container>
+
+</div>

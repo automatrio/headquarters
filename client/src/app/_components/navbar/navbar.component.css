@@ -1,0 +1,75 @@
+.rows {
+    width: inherit;
+}
+
+span {
+    width: 70px;
+    font-weight: bold;
+}
+
+.navbar-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0%;
+    margin: 0%;
+    width: inherit;
+    height: 30px;
+    transform: translateX(-1500px);
+}
+
+.navbar-row:first-child {
+    background-image: linear-gradient(90deg,rgba(40,88,143,0), rgba(40,88,143,1));
+    padding-left: 15px;
+}
+
+.navbar-row:nth-child(2) {
+    background-image: linear-gradient(90deg,rgba(40, 143, 138, 0), rgba(40, 143, 138, 1));
+    padding-left: 50px;
+}
+
+.navbar-row:nth-child(3) {
+    background-image: linear-gradient(90deg,rgba(40, 143, 81, 0), rgba(40, 143, 81, 1));
+    padding-left: 85px;
+}
+
+.navbar-row:nth-child(4) {
+    background-image: linear-gradient(90deg,rgba(57, 143, 40, 0), rgba(57, 143, 40, 1));
+    padding-left: 120px;    
+}
+
+.navbar-row:nth-child(5) {
+    background-image: linear-gradient(90deg,rgba(134, 143, 40, 0), rgba(134, 143, 40, 1));
+    padding-left: 155px;
+}
+
+.navbar-button {
+    background: none;
+    color: white;
+    padding: 2.5pt;
+    margin-left: 2.5pt;
+    width: 140px;
+    box-shadow: none;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+}
+
+.rows > .navbar-row:first-child > ul > button.navbar-button {
+    background: rgba(40,88,143,.4);
+}
+
+.rows > .navbar-row:nth-child(2) > ul > button.navbar-button {
+    background: rgba(40, 143, 138, .4);
+}
+
+.rows > .navbar-row:nth-child(3) > ul > button.navbar-button {
+    background: rgba(40, 143, 81, .4);
+}
+
+.rows > .navbar-row:nth-child(4) > ul > button.navbar-button {
+    background: rgba(57, 143, 40, .4);
+}
+
+.rows > .navbar-row:nth-child(5) > ul > button.navbar-button {
+    background: rgba(134, 143, 40, .4);
+}

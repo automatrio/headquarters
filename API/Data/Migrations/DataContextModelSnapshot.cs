@@ -40,66 +40,35 @@ namespace API.Data.Migrations
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("API.Entities.Models3D", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AdminId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PublicID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("AdminId");
-
-                    b.ToTable("Models3D");
-                });
-
-            modelBuilder.Entity("API.Entities.Music", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AdminId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PublicID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("AdminId");
-
-                    b.ToTable("Music");
-                });
-
-            modelBuilder.Entity("API.Entities.Picture", b =>
+            modelBuilder.Entity("API.Entities.BlogPost", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AdminId")
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlogPosts");
+                });
+
+            modelBuilder.Entity("API.Entities.Media", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogPostId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -108,56 +77,65 @@ namespace API.Data.Migrations
                     b.Property<string>("PublicID")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId");
+                    b.HasIndex("BlogPostId");
 
-                    b.ToTable("Pictures");
+                    b.ToTable("Medias");
+
+                    b.HasDiscriminator<int>("Type");
                 });
 
-            modelBuilder.Entity("API.Entities.Models3D", b =>
+            modelBuilder.Entity("API.Entities.Model3D", b =>
                 {
-                    b.HasOne("API.Entities.Admin", "Admin")
-                        .WithMany("Models3D")
-                        .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasBaseType("API.Entities.Media");
 
-                    b.Navigation("Admin");
+                    b.Property<string>("EmbedHtml")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("API.Entities.Music", b =>
                 {
-                    b.HasOne("API.Entities.Admin", "Admin")
-                        .WithMany("Music")
-                        .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasBaseType("API.Entities.Media");
 
-                    b.Navigation("Admin");
+                    b.Property<string>("Album")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(0);
                 });
 
             modelBuilder.Entity("API.Entities.Picture", b =>
                 {
-                    b.HasOne("API.Entities.Admin", "Admin")
-                        .WithMany("Pictures")
-                        .HasForeignKey("AdminId")
+                    b.HasBaseType("API.Entities.Media");
+
+                    b.Property<string>("Project")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("API.Entities.Media", b =>
+                {
+                    b.HasOne("API.Entities.BlogPost", "BlogPost")
+                        .WithMany("Media")
+                        .HasForeignKey("BlogPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Admin");
+                    b.Navigation("BlogPost");
                 });
 
-            modelBuilder.Entity("API.Entities.Admin", b =>
+            modelBuilder.Entity("API.Entities.BlogPost", b =>
                 {
-                    b.Navigation("Models3D");
-
-                    b.Navigation("Music");
-
-                    b.Navigation("Pictures");
+                    b.Navigation("Media");
                 });
 #pragma warning restore 612, 618
         }

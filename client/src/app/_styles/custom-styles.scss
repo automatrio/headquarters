@@ -1,0 +1,23 @@
+@import '~@angular/material/theming';
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+$custom-typography:    mat-typography-config(
+    $font-family:      '"Rajdhani" , sans-serif'
+);
+
+@include mat-core($custom-typography);
+
+$headquarters-primary: mat-palette($mat-gray, A500, A300, A800);
+$headquarters-accent:  mat-palette($mat-indigo, A300, A100, A800);
+$headquarters-warn:    mat-palette($mat-red);
+
+$headquarters-theme: mat-dark-theme((
+    color: (
+        primary: $headquarters-primary,
+        accent: $headquarters-accent,
+        warn: $headquarters-warn
+    ),
+  )
+);
+
+@include angular-material-theme($headquarters-theme);

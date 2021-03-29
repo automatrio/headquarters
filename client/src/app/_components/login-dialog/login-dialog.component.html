@@ -1,0 +1,50 @@
+<div class="login-dialog-content"
+[@slide]='slideState'
+[@fade]='fadeState'
+(@slide.start)="onAnimationStart($event)" 
+(@slide.done)="onAnimationDone($event)">
+
+    <span class="panel-title">
+        Welcome!
+    </span>
+
+    <form
+        #loginForm="ngForm"
+        class="login-form"
+        (ngSubmit)="login()"
+        autocomplete="off"
+        [@slide]='slideState'
+    >
+        <input 
+            name="username"
+            type="text"
+            placeholder="Username"
+            [(ngModel)]="model.username"
+            >
+        <input 
+            name="password"
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="model.password"
+            >
+
+        <ul class="button-row">
+            <button 
+                class="login-button"
+                type="submit"
+                >
+                Log In
+            </button>
+            <button 
+                class="cancel-button"
+                type="button"
+                (click)="cancel()"
+                >
+                Cancel
+            </button>
+        </ul>
+
+
+    </form>
+
+</div>

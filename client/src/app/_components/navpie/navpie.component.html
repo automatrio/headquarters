@@ -1,0 +1,46 @@
+<nav class="navpie">
+    <ul>
+        <!-- <button 
+            class="material-icons"
+            *ngFor="let icon of icons"
+            (mouseenter)="onMouseHover($event)"
+            >
+            {{icon}}
+        </button> -->
+        <button 
+            class="material-icons"
+            (mouseenter)="expandIcon($event)"
+            (mouseleave)="resetIcon($event)"
+            id="0"
+            >{{display[0]}}</button>
+
+        <button 
+            class="material-icons"
+            (mouseenter)="expandIcon($event)"
+            (mouseleave)="resetIcon($event)"
+            id="1"
+            >{{display[1]}}</button>
+        
+        <button 
+            class="material-icons"
+            (mouseenter)="expandIcon($event)"
+            (mouseleave)="resetIcon($event)"
+            id="2"
+            >{{display[2]}}</button>
+        
+        <button 
+            class="material-icons"
+            (mouseenter)="expandIcon($event)"
+            (mouseleave)="resetIcon($event)"
+            id="3"
+            >{{display[3]}}</button>
+        
+        <button 
+            class="material-icons"
+            (mouseenter)="expandIcon($event)"
+            (mouseleave)="resetIcon($event)"
+            id="4"
+            >{{display[4]}}</button>
+    </ul>
+
+</nav>

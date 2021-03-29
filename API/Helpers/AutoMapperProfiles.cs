@@ -12,6 +12,8 @@ namespace API.Helpers
             CreateMap<Picture, PictureDTO>();
             CreateMap<Model3D, Model3DDTO>();
             CreateMap<Music, MusicDTO>();
+            CreateMap<Media, MediaDTO>();
+            CreateMap<BlogPost, BlogPostDTO>();
         }
     }
 }

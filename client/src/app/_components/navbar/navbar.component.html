@@ -1,0 +1,91 @@
+<div class="rows" 
+    @slide
+    (@slide.done)="onAnimationDone($event)"
+    >
+<mat-toolbar-row class="navbar-row">
+    Devlogs
+    <ul>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+            S.T.R.O.B.O.T.S
+        </button>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+            Headquarters
+        </button>
+    </ul>
+</mat-toolbar-row>
+
+<mat-toolbar-row class="navbar-row">
+    Portfolio
+    <ul>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+            3D Modelling
+        </button>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()"
+            routerLink="/music">
+            Music
+        </button>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+            Digital Art
+        </button>
+    </ul>
+</mat-toolbar-row>
+
+<mat-toolbar-row class="navbar-row">
+    Skilltree
+    <ul>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+            Languages
+        </button>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+            Programming
+        </button>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+            Miscellaneous
+        </button>
+    </ul>
+</mat-toolbar-row>
+
+<mat-toolbar-row class="navbar-row">
+    Contact
+    <ul>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+            Email Us
+        </button>
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+            Social Media
+        </button>
+    </ul>
+</mat-toolbar-row>
+
+<mat-toolbar-row class="navbar-row">
+    Admin
+    <ul>
+        <button 
+            class="navbar-button"
+            (mouseenter)="increaseAlpha($event)"
+            (mouseleave)="resetAlpha($event)"
+            (click)="openLoginDialog()"
+            *ngIf="(this.accountService.currentUser$ | async) == null">
+            Login
+        </button>
+
+        <button
+            class="navbar-button"
+            routerLink="/manager" routerLinkActive='active'
+            (mouseenter)="increaseAlpha($event)"
+            (mouseleave)="resetAlpha($event)"
+            *ngIf="this.accountService.currentUser$ | async">
+            Content Manager
+        </button>
+
+        <button 
+            class="navbar-button"
+            (mouseenter)="increaseAlpha($event)"
+            (mouseleave)="resetAlpha($event)"
+            (click)="this.accountService.logout()"
+            *ngIf="this.accountService.currentUser$ | async">
+            Logout
+        </button>
+    </ul>
+</mat-toolbar-row>
+</div>

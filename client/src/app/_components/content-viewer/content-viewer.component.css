@@ -1,0 +1,83 @@
+.text-viewport {
+    height: 600px;
+    width: 600px;
+    background:rgba(51, 51, 51, 0.5);
+    border-radius: 4px;
+    margin: 20px;
+    font-size: 12pt;
+}
+
+.text-content {
+    padding: 20px;
+}
+
+.title-content {
+    padding: 20px;
+    font-size: 18pt;
+    text-align: center;
+}
+
+.sidenav-container {
+    
+    position: absolute;
+    top: 150px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: none;
+}
+
+.mat-sidenav {
+
+    width: 250px;
+    background: none;
+    border: none;
+    position: fixed;
+}
+
+.mat-sidenav-content
+{
+    background: none;
+}
+
+.button-cascade
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    list-style-type: none;
+}
+
+button
+{
+    margin-bottom: 38px;
+    height: 50px;
+    border: 2px solid #444;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    width: 180px;
+    text-align: left;
+    background-color: rgba(136, 136, 136, 0.45);
+    transition: 300ms background-color border-color;
+    color: white;
+}
+
+button:hover
+{
+    border-color: rgba(255, 255, 255, 0.521);
+    background-color: rgba(140, 209, 255, 0.45);
+    color: white;
+}
+
+.mat-drawer
+{
+    top: 150px;
+}
+
+.logo
+{
+    background: none;
+    border: none;
+}

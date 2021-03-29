@@ -11,5 +11,19 @@ namespace API.Data
         }
 
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<BlogPost> BlogPosts { get; set; }
+        public DbSet<Media> Medias { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Media>()
+                .HasDiscriminator(media => media.Type)
+                .HasValue<Music>(MediaType.Music)
+                .HasValue<Model3D>(MediaType.Model3D)
+                .HasValue<Picture>(MediaType.Picture);
+            // builder.Entity<Media>().ToTable("Media");
+            // base.OnModelCreating(builder);
+        }
+
     }
 }
