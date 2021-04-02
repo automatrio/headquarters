@@ -1,5 +1,5 @@
 import { animate, AnimationEvent, query, stagger, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { from, Subject } from 'rxjs';
 import { AccountService } from 'src/app/_services/account.service';
 import { LoginDialogOverlayService } from 'src/app/_services/login-dialog-overlay.service';
@@ -27,20 +27,29 @@ export const TIMING = '1000ms cubic-bezier(0.25, 0.8, 0.25, 1)';
     )
   ]
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, AfterViewInit {
 
   mouseHover = '';
   slideState: 'slideIn' | 'slideOut' = 'slideIn';
   originalColor: string = '';
   newColor: string = '';
-  navbarRow = document.getElementsByClassName('navbar-row')
-  @Output() switchMenusEvent = new EventEmitter<boolean>();
+  navbarRow = document.getElementsByClassName('navbar-row');
+
+  @ViewChildren("navrow", {read: ElementRef})
+    navRows: QueryList<ElementRef>
+
+  @Output()
+  switchMenusEvent = new EventEmitter<string>();
 
 
   constructor(
     private loginDialogOverlayService: LoginDialogOverlayService,
     public accountService: AccountService
     ) {}
+
+
+  ngAfterViewInit(): void {
+  }
 
   ngOnInit(): void {
   }
@@ -80,29 +89,11 @@ export class NavbarComponent implements OnInit {
     currentElement.style.backgroundColor = this.originalColor.slice(0, -5) + "0.4)";
   }
 
-  async slideOutMenu()
+  async slideOutMenu(event: Event)
   { 
-    for (let i = 0; i < this.navbarRow.length; i++) {
-
-        await this.sleep(200).then(() => {
-
-          (this.navbarRow[i] as HTMLElement).animate(
-            {
-              transform: "translateX(-1500px)"
-            }, {duration: 1000, easing: "cubic-bezier(0.25, 0.8, 0.25, 1)"}
-          );
-          
-        });
-        from((this.navbarRow[i] as HTMLElement).getAnimations()[0].finished).subscribe(
-          () => 
-          {
-            (this.navbarRow[i] as HTMLElement).style.transform = "translateX(-1500px)";
-            // kill this component
-            this.switchMenusEvent.emit(true);
-          }
-        )
-    }
-    
+    await this.slideRows(
+      () => this.switchMenusEvent.emit((event.target as HTMLElement).id)
+      );
   }
 
   sleep(length)
@@ -120,6 +111,33 @@ export class NavbarComponent implements OnInit {
   openLoginDialog()
   {
     this.loginDialogOverlayService.open();
+  }
+
+  async slideRows(next)
+  {
+    for (let i = 0; i < this.navRows.length; i++) {
+
+      const finishedAnimationPromise = (this.navbarRow[i] as HTMLElement)?.animate(
+        {
+          transform: "translateX(-1500px)"
+        }, {duration: 600, easing: "cubic-bezier(0.25, 0.8, 0.25, 1)"}
+      ).finished;
+
+      const finishedAnimationObservable = from(finishedAnimationPromise).subscribe(
+        () => {
+          console.log("finally");
+          (this.navbarRow[i] as HTMLElement).style.transform = "translateX(-1500px)";
+
+          // continue from last animation
+          if(i == this.navbarRow.length - 1)
+          {
+            next();
+          }
+          finishedAnimationObservable.unsubscribe();
+        });
+
+      await this.sleep(200);
+    }
   }
 
 }

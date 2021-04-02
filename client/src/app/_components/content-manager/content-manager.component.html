@@ -1,1 +1,68 @@
-<p> Manager works! </p>
+<form 
+    (ngSubmit)="go()"
+    class="instruction-form">
+    <mat-form-field appearance="fill">
+        <mat-label>Action</mat-label>
+        <mat-select
+            class="form-field"
+            name="action"
+            [(ngModel)]="managerOptions.action"
+            (value)="this.actionValue"
+            (valueChange)="actionChosen($event)" >
+            <mat-option value="create">Create</mat-option>
+            <mat-option value="edit">Edit</mat-option>
+            <mat-option value="delete">Delete</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Content type</mat-label>
+        <mat-select
+            class="form-field"
+            name="contentType"
+            [(ngModel)]="managerOptions.type"
+            (valueChange)="contentTypeChosen($event)">
+            <mat-option *ngFor="let type of contentTypes" value="{{type}}">
+                {{type}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <div class="last-row">
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Element</mat-label>
+            <mat-select
+                class="form-field" 
+            name="element"
+            [(ngModel)]="managerOptions.blogPost"
+                (valueChange)="elementChosen($event)">
+                <mat-option *ngFor="let element of elements" [value]="element.title">
+                    {{element?.title}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-button color="warn" class="go-button" type="submit"> Go </button>
+
+    </div>
+
+    <input
+    matInput
+    class="title-input"
+    name="title"
+    type="text"
+    placeholder="Title"
+    [(ngModel)]="managerOptions.title"
+    >
+    <textarea 
+    matInput
+    class="content-input"
+    name="content"
+    type="text"
+    placeholder="Say something."
+    [(ngModel)]="managerOptions.content"
+    >
+    </textarea>
+</form>
+

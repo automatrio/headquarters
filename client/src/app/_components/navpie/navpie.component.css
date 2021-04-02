@@ -6,16 +6,13 @@ ul {
     list-style-type: none;
 }
 .material-icons, .icon-text {
-
-    transform-origin: center;
-    border-radius: 50%;
+    border-radius: 27px;
     padding: 10px;
     cursor: pointer;
     position: absolute;
-
+    color: #333;
     min-width: 54px;
     height: 54px;
-
 }
 
 .icon-text {
@@ -24,7 +21,6 @@ ul {
     text-anchor: middle;
 
     padding: 10px;
-    width: auto;
     font-size: 14pt;
     font-weight: bold;
     font-family: 'Rajdhani', sans-serif;

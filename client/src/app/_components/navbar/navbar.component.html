@@ -2,62 +2,62 @@
     @slide
     (@slide.done)="onAnimationDone($event)"
     >
-<mat-toolbar-row class="navbar-row">
+<mat-toolbar-row class="navbar-row" #navrow>
     Devlogs
     <ul>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
             S.T.R.O.B.O.T.S
         </button>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
             Headquarters
         </button>
     </ul>
 </mat-toolbar-row>
 
-<mat-toolbar-row class="navbar-row">
+<mat-toolbar-row class="navbar-row" #navrow>
     Portfolio
     <ul>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
             3D Modelling
         </button>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()"
-            routerLink="/music">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)"
+            id="/music">
             Music
         </button>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
             Digital Art
         </button>
     </ul>
 </mat-toolbar-row>
 
-<mat-toolbar-row class="navbar-row">
+<mat-toolbar-row class="navbar-row" #navrow>
     Skilltree
     <ul>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
             Languages
         </button>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
             Programming
         </button>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
             Miscellaneous
         </button>
     </ul>
 </mat-toolbar-row>
 
-<mat-toolbar-row class="navbar-row">
+<mat-toolbar-row class="navbar-row" #navrow>
     Contact
     <ul>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
             Email Us
         </button>
-        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu()">
+        <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
             Social Media
         </button>
     </ul>
 </mat-toolbar-row>
 
-<mat-toolbar-row class="navbar-row">
+<mat-toolbar-row class="navbar-row" #navrow>
     Admin
     <ul>
         <button 
@@ -71,9 +71,10 @@
 
         <button
             class="navbar-button"
-            routerLink="/manager" routerLinkActive='active'
+            id="/manager"
             (mouseenter)="increaseAlpha($event)"
             (mouseleave)="resetAlpha($event)"
+            (click)="slideOutMenu($event)"
             *ngIf="this.accountService.currentUser$ | async">
             Content Manager
         </button>

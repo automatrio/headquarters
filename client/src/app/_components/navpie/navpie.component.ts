@@ -21,7 +21,6 @@ export class NavpieComponent implements AfterViewInit{
 
   constructor() {
     this.display = Object.assign([], this.icons);
-    
    }
 
   ngAfterViewInit(): void {
@@ -57,40 +56,48 @@ export class NavpieComponent implements AfterViewInit{
           }, {duration: 1000, easing: "cubic-bezier(0.25, 0.8, 0.25, 1)"}
         ).finished
 
-      from(finishedAnimationPromise).subscribe(
-        () => currentElement.style.transform = "translate3D(" + position +")"
-      );
+      const finishedAnimationObservable = from(finishedAnimationPromise).subscribe(
+        () => { 
+          currentElement.style.transform = "translate3D(" + position +")";
+          finishedAnimationObservable.unsubscribe();
+        });
     }
   }
 
-  async expandIcon(event: Event)
+  expandIcon(event: Event)
   {
     const element = event.target as HTMLElement;
 
     if(this.isExpanded != element.id)
-    {
-      
-      const borderCurvature = parseFloat(getComputedStyle(element).height) + "px";
+    {  
       this.index = parseInt(element.id);
 
       const finishedAnimationPromise = element.animate(
-        {
-          // borderRadius: borderCurvature,
-          // width: "100px",
-          color: "rgba(255,255,255,0)"
-        }, {duration: 300, easing: "cubic-bezier(0.25, 0.8, 0.25, 1)"}).finished;
+      {
+        minWidth: "100px",
+        color: "rgba(255,255,255,0)"
+      }, {duration: 100}).finished;
 
-      from(finishedAnimationPromise).subscribe(
-        () => {
-          element.className = "li icon-text";
-          // element.style.width = "100px";
-          element.style.borderRadius = borderCurvature;
-          this.incrementText();
-          this.isExpanded = element.id;
-        }
-      )
+      const finishedAnimationObservable = from(finishedAnimationPromise).subscribe(
+      () => {
+        // stores the final state
+        element.className = "li icon-text";
+        element.style.minWidth = "100px";
+        element.style.color = "rgba(51,51,51,0)";
+
+        // changes the text
+        this.display[this.index] = this.labels[this.index];
+
+        from(element.animate({color: "rgba(51,51,51,1)"}, 100).finished).subscribe( () => element.style.color = "rgba(51,51,51,1)");
+
+        // makes sure only one element is affected at a time
+        this.isExpanded = element.id;
+        finishedAnimationObservable.unsubscribe();
+        });
     }
-    return;
+    else { 
+      return;
+    }
   }
 
   resetIcon(event: Event)
@@ -99,24 +106,31 @@ export class NavpieComponent implements AfterViewInit{
 
     if(this.isExpanded == element.id)
     {
-      this.decrementText().then(
-        () => {
-          const finishedAnimationPromise = element.animate({
-            color: "rgba(255,255,255,0)",
-            width: "54px"
-          }, {duration: 150, easing: "cubic-bezier(0.25, 0.8, 0.25, 1)"}).finished;
+      const finishedAnimationPromise = element.animate({
+        color: "rgba(51,51,51,0)",
+        width: "54px",
+        minWidth: "54px"
 
-          from(finishedAnimationPromise).subscribe(
-            () => {
-              this.display[this.index] = this.icons[this.index];
-              element.className = "li material-icons";
-              this.isExpanded = ""
-            }
-          )
-        }
-      )
+      }, {duration: 100}).finished;
+
+      const finishedAnimationObservable = from(finishedAnimationPromise).subscribe(
+        () => {
+          element.className = "li material-icons";
+          element.style.minWidth = "54px";
+          element.style.width = "54px";
+          element.style.color = "rgba(51,51,51,0)";
+
+          this.display[this.index] = this.icons[this.index];
+
+          from(element.animate({color: "rgba(51,51,51,1)"}, 100).finished).subscribe( () => element.style.color = "rgba(51,51,51,1)");
+
+          this.isExpanded = "";
+          finishedAnimationObservable.unsubscribe();
+        });
     }
-    return;
+    else { 
+      return;
+    }
   }
 
   async incrementText()
@@ -127,7 +141,7 @@ export class NavpieComponent implements AfterViewInit{
 
       await this.sleep(20).then(() => {
        
-        this.display[this.index] += this.labels[this.index].slice(i, i+1);
+        this.display[this.index] = this.labels[this.index].slice(0, i+1);
       
       })
 

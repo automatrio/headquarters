@@ -23,3 +23,7 @@ body {
     opacity: 0.85 !important;
 }
 
+.dark-backdrop {
+    background: #000;
+    opacity: 0.85 !important;
+}

@@ -20,8 +20,11 @@ export class NavpieOverlayService {
     const portal = new ComponentPortal(NavpieComponent, null, this.createInjector(overlayRef));
     const componentRef = portal.attach(overlayRef);
     const navpieRef = new NavpieRef(overlayRef);
-    overlayRef.backdropClick().subscribe(
-      () => navpieRef.close()
+    const backdropClickSubscription = overlayRef.backdropClick().subscribe(
+      () => {
+        navpieRef.close();
+        backdropClickSubscription.unsubscribe();
+      }
     );
 
     
@@ -46,7 +49,8 @@ export class NavpieOverlayService {
         scrollStrategy: this.overlay.scrollStrategies.block(),
         panelClass: config.panelClass,
         backdropClass: config.backdropClass,
-        hasBackdrop: config.hasBackdrop
+        hasBackdrop: config.hasBackdrop,
+        disposeOnNavigation: true
       });
 
     return overlayConfig; 

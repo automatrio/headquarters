@@ -25,7 +25,6 @@ namespace API.Repository.BlogPostRepository
         {
             var blogPost = new BlogPost()
             {
-                Id = blogPostDTO.Id,
                 Type = (BlogType)Enum.Parse(typeof(BlogType), blogPostDTO.Type),
                 Title = blogPostDTO.Title,
                 Content = blogPostDTO.Content,

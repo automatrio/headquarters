@@ -13,6 +13,7 @@ export class NavpieRef
 
     close()
     {
+        this.overlay.backdropElement.remove();
         this.overlay.dispose();
     }
 }

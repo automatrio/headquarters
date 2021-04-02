@@ -12,15 +12,16 @@ export class LoginDialogOverlayRef
     ) { }
 
     close(): void {
-        this.componentInstance.animationStateChanged.pipe( //subscribing to the eventEmitter
+        const animationStartedObservable = this.componentInstance.animationStateChanged.pipe( //subscribing to the eventEmitter
             filter(event => event.phaseName === 'start'),
             take(1))
             .subscribe( () => 
             {
                 this.overlayRef.detachBackdrop();
+                animationStartedObservable.unsubscribe();
             });
 
-        this.componentInstance.animationStateChanged.pipe(
+        const animationEndedObservable = this.componentInstance.animationStateChanged.pipe(
             filter((event: AnimationEvent) => event.phaseName === 'done' && event.toState == 'leave'),
             take(1))
             .subscribe( () =>
@@ -28,6 +29,7 @@ export class LoginDialogOverlayRef
                 this.overlayRef.dispose(); // closes the overlay
                 // clearing it so as not to have any memory leaks
                 this.componentInstance = null;
+                animationEndedObservable.unsubscribe();
             });
 
         this.componentInstance.startExitAnimation();

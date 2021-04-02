@@ -8,9 +8,8 @@ namespace API.Entities
         public BlogType Type { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        public List<Media> Media { get; set; }
-
-        // public IReadonlyList<Comment> Comments { get; set; }
+        public List<Media> Media { get; set; } = new List<Media>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
 

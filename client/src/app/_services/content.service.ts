@@ -15,14 +15,20 @@ export class ContentService {
     private mediaService: MediaService
     ) { }
 
-  fetchBlogPosts(contentType: 'MusicBlog' | 'DevLog' | 'Model3DBlog' | 'NewsBlog' | 'PictureBlog') : Observable<BlogPost[]>
+  fetchBlogPosts(contentType: 'MusicBlog' | 'Devlog' | 'Model3DBlog' | 'NewsBlog' | 'PictureBlog') : Observable<BlogPost[]>
   {
     return this.httpClient.get<BlogPost[]>(environment.APIUrl + 'blogpost/type/' + contentType);
   }
 
   fetchMediaForEachBlog(blogs: BlogPost[])
   {
-
+    // questionable
   }
+
+  postNewContent(content: BlogPost)
+  {
+    return this.httpClient.post<BlogPost>(environment.APIUrl + 'blogpost', content);
+  }
+  
 
 }

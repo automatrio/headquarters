@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MusicBlogComponent implements OnInit {
 
-  homeContent : "MusicBlog" | "DevLog" | "Model3DBlog" | "NewsBlog" | "PictureBlog" = "MusicBlog";
+  homeContent : "MusicBlog" | "Devlog" | "Model3DBlog" | "NewsBlog" | "PictureBlog" = "MusicBlog";
   isHomepage = false;
 
   constructor() { }

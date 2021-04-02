@@ -19,6 +19,8 @@ import { NavpieComponent } from './_components/navpie/navpie.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { MusicBlogComponent } from './_components/portfolio/music-blog/music-blog.component';
+import { CommentTreeComponent } from './_components/comment-tree/comment-tree.component';
+import { CommentBoxComponent } from './_components/comment-box/comment-box.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { MusicBlogComponent } from './_components/portfolio/music-blog/music-blo
     ContentViewerComponent,
     DevlogsComponent,
     NavpieComponent,
-    MusicBlogComponent
+    MusicBlogComponent,
+    CommentTreeComponent,
+    CommentBoxComponent
   ],
   imports: [
     BrowserModule,

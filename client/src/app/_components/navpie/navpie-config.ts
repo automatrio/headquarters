@@ -16,7 +16,7 @@ export const defaultNavpieConfig : NavpieConfig =
 {
     panelClass: 'navpie-overlay',
     position: {
-        top: "80",
+        top: "120",
         left: "-70"
     },
     hasBackdrop: true,

@@ -13,6 +13,7 @@ namespace API.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Media> Medias { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,6 +22,7 @@ namespace API.Data
                 .HasValue<Music>(MediaType.Music)
                 .HasValue<Model3D>(MediaType.Model3D)
                 .HasValue<Picture>(MediaType.Picture);
+
             // builder.Entity<Media>().ToTable("Media");
             // base.OnModelCreating(builder);
         }

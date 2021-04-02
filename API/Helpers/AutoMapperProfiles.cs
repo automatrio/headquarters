@@ -14,6 +14,19 @@ namespace API.Helpers
             CreateMap<Music, MusicDTO>();
             CreateMap<Media, MediaDTO>();
             CreateMap<BlogPost, BlogPostDTO>();
+            CreateMap<Comment, CommentDTO>()
+                .ForMember(
+                    destinationMember: commentDTO => commentDTO.ParentBlogPostId,
+                    memberOptions: options => options.MapFrom(
+                        comment => comment.ParentBlogPost.Id
+                    )
+                )
+                .ForMember(
+                    commendDTO => commendDTO.ParentCommentId,
+                    options => options.MapFrom(
+                        comment => comment.ParentComment.Id
+                    )  
+                );
         }
     }
 }

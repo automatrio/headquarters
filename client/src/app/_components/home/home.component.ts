@@ -8,7 +8,7 @@ import { Content } from 'src/app/_models/content';
 })
 export class HomeComponent implements OnInit {
 
-  homeContent : "MusicBlog" | "DevLog" | "Model3DBlog" | "NewsBlog" | "PictureBlog" = "NewsBlog";
+  homeContent : "MusicBlog" | "Devlog" | "Model3DBlog" | "NewsBlog" | "PictureBlog" = "NewsBlog";
   isHomepage = true;
   
   constructor() { }

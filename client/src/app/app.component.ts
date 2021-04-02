@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
 import { NavpieOverlayService } from './_services/navpie-overlay.service';
@@ -14,6 +16,7 @@ export class AppComponent {
 
   constructor(
     private accountService: AccountService,
+    private router: Router
     ) {}
 
   ngOnInit(): void {
@@ -26,9 +29,9 @@ export class AppComponent {
     this.accountService.setCurrentUser(user);
   }
 
-  switchNavMenus(event: boolean)
+  async switchNavMenus(event: string)
   {
-    console.log("this is hapenning")
-    this.isNavbar = event;
+    console.log("Switching...")
+    await this.router.navigateByUrl(event).finally( () => this.isNavbar = false);
   }
 }
