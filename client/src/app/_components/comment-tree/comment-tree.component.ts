@@ -1,6 +1,8 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, Injector, Input, OnInit, ViewChild, ViewContainerRef, ViewRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { BlogPost } from 'src/app/_models/blogPost';
-import { Comment, CommentNode } from 'src/app/_models/comment';
+import { Comment } from 'src/app/_models/comment';
 import { CommentsService } from 'src/app/_services/comments.service';
 import { CommentBoxComponent } from '../comment-box/comment-box.component';
 
@@ -9,37 +11,64 @@ import { CommentBoxComponent } from '../comment-box/comment-box.component';
   templateUrl: './comment-tree.component.html',
   styleUrls: ['./comment-tree.component.css']
 })
-export class CommentTreeComponent implements OnInit, AfterViewInit {
+export class CommentTreeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   comments: Comment[] = [];
+  commentCreationSubscription: Subscription;
 
   @Input()
     blogPost: BlogPost;
 
-  @ViewChild("container", {read: ViewContainerRef})
+  @Output()
+    hasComments = new EventEmitter<boolean>();
+
+  @ViewChild('container', {read: ViewContainerRef})
     container: ViewContainerRef;
+
+  containerChildren: CommentBoxComponent[] = [];
+
 
   constructor(
     private commentsService: CommentsService,
     private factoryResolver: ComponentFactoryResolver,
-    private injector: Injector
-    ) {}
-  ngAfterViewInit(): void {
-    
+    private router: Router)
+    {
+      this.router.onSameUrlNavigation = 'reload';
+    }
+
+  ngOnDestroy(): void {
+    this.commentCreationSubscription.unsubscribe();
   }
+
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.fetchComments();
+    this.commentCreationSubscription = this.commentsService.commentCreated$.subscribe(
+      () => {
+        this.reset();
+    });
   }
 
   private fetchComments()
   {
     const fetchComments = this.commentsService.getCommentsByBlogPost(this.blogPost.id).subscribe(
       (response: Comment[]) => {
-        this.comments = response;
-        this.reorganizeCommentsIntoTree(this.comments);
-        this.createBoxesForAllComments(this.comments);
-        fetchComments.unsubscribe();
+
+        if(response.length > 0)
+        {
+          this.comments = response;
+          this.reorganizeCommentsIntoTree(this.comments);
+          this.createBoxesForAllComments(this.comments);
+          fetchComments.unsubscribe();
+          
+          this.hasComments.emit(true);
+        }
+        else
+        {
+          this.hasComments.emit(false);
+        }
+
       }
     );
   }
@@ -66,7 +95,7 @@ export class CommentTreeComponent implements OnInit, AfterViewInit {
     return reorganizedNodes;
   }
 
-  private createCommentBox(commentInject: Comment, viewContainerRef: ViewContainerRef, isChild: boolean) : ViewRef
+  private createCommentBox(commentInject: Comment, viewContainerRef: ViewContainerRef, isChild: boolean) : ComponentRef<CommentBoxComponent>
   {
     const componentFactory = this.factoryResolver.resolveComponentFactory(CommentBoxComponent);
 
@@ -77,28 +106,49 @@ export class CommentTreeComponent implements OnInit, AfterViewInit {
       ]
     });
 
-    const componentRef = viewContainerRef.createComponent(componentFactory, 0, injector);
+    // const componentRef = viewContainerRef.createComponent(componentFactory, 0, injector);
+
+    const componentRef = componentFactory.create(injector);
 
     componentRef.instance.isChild = isChild;
 
-    return componentRef.hostView;
+    componentRef.instance.replyQueuedEvent.subscribe(
+      (parentCommentId: number) =>
+      {
+        this.pushCommentBoxesDown(parentCommentId);
+      }
+    );
+
+    return componentRef;
   }
 
   private createBoxesForAllComments(comments: Comment[]) : void
   {
     comments.forEach(
       comment => {
-        this.createCommentBox(comment, 
+        const commentRef = this.createCommentBox(comment, 
           this.container,
-          (!!comment.parentCommentId))
+          (!!comment.parentCommentId));
+
+        this.container.insert(commentRef.hostView);
+        this.containerChildren.push(commentRef.instance)
       }
     );
   }
 
-  reset()
-  {
+  reset() {
+    this.container.clear();
     this.comments = [];
-    this.fetchComments();
+    this.ngOnInit();
+  }
+
+  pushCommentBoxesDown(parentCommentId: number)
+  {
+    const index = this.comments.findIndex(comment => comment.id == parentCommentId);
+
+    let finishedAnimationPromise: Promise<Animation>;
+
+    this.containerChildren[index].callCommentCreator();
   }
 
 }

@@ -1,8 +1,10 @@
 <mat-toolbar 
   class="navbar"
   *ngIf="isNavbar"
+  @slide
+  (@slide.done)="onSlideAnimationDone($event)"
 >
-  <app-navbar (switchMenusEvent)="switchNavMenus($event)"></app-navbar>
+  <app-navbar (switchMenusEvent)="switchNavMenus($event)" [slideAnimationState$]="animationEvent$" ></app-navbar>
 </mat-toolbar>
 
 

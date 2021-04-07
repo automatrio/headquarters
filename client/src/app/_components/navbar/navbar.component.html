@@ -1,8 +1,8 @@
 <div class="rows" 
-    @slide
+    [@slide]="slideState"
     (@slide.done)="onAnimationDone($event)"
     >
-<mat-toolbar-row class="navbar-row" #navrow>
+<mat-toolbar-row class="navbar-row" #navrow *ngIf="ready">
     Devlogs
     <ul>
         <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
@@ -14,7 +14,7 @@
     </ul>
 </mat-toolbar-row>
 
-<mat-toolbar-row class="navbar-row" #navrow>
+<mat-toolbar-row class="navbar-row" #navrow *ngIf="ready">
     Portfolio
     <ul>
         <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
@@ -30,7 +30,7 @@
     </ul>
 </mat-toolbar-row>
 
-<mat-toolbar-row class="navbar-row" #navrow>
+<mat-toolbar-row class="navbar-row" #navrow *ngIf="ready">
     Skilltree
     <ul>
         <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
@@ -45,7 +45,7 @@
     </ul>
 </mat-toolbar-row>
 
-<mat-toolbar-row class="navbar-row" #navrow>
+<mat-toolbar-row class="navbar-row" #navrow *ngIf="ready">
     Contact
     <ul>
         <button class="navbar-button" (mouseenter)="increaseAlpha($event)" (mouseleave)="resetAlpha($event)" (click)="slideOutMenu($event)">
@@ -57,7 +57,7 @@
     </ul>
 </mat-toolbar-row>
 
-<mat-toolbar-row class="navbar-row" #navrow>
+<mat-toolbar-row class="navbar-row" #navrow *ngIf="ready">
     Admin
     <ul>
         <button 

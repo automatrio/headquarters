@@ -3,7 +3,6 @@ cdk-virtual-scroll-viewport {
     border-radius: 4px;
     margin: 20px;
     font-size: 12pt;
-    width: 600px;
 }
 
 .text-viewport {
@@ -96,3 +95,28 @@ cdk-virtual-scroll-viewport {
     transform: scale(.65)
 }
 
+.app-comment-tree
+{
+    margin-left: 10px;
+}
+
+.comment-section
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-button
+{
+    width: fit-content;
+    align-self: flex-end;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    transition: 200ms;
+    font-weight: bold;
+}
+
+.comment-button:hover
+{
+    transform: scale(1.15);
+}

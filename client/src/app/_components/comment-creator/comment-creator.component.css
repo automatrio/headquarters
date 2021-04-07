@@ -1,8 +1,9 @@
 .mat-card
 {
-    background-color: rgba(34, 34, 34, 0.30);
-    margin: 10px;
+    background-color: rgba(34, 34, 34, 0.60);
+    margin: 20px;
     height: fit-content;
+    transform-origin: top;
 }
 .mat-card-title
 {
@@ -13,6 +14,11 @@
 {
     font-size: medium;
     padding-left: 20pt;
+}
+
+.content-field
+{
+    width: 100%;
 }
 
 .mat-card-subtitle

@@ -1,5 +1,27 @@
-<mat-card #cardRef>
-    <mat-card-title> {{comment.author}} </mat-card-title>
-    <mat-card-content> {{comment.content}} </mat-card-content>
-    <mat-card-subtitle> {{comment.date}} </mat-card-subtitle>
-</mat-card>
+<ng-container #container>
+
+    <mat-card #cardRef>
+
+        <mat-card-title> {{comment.author}} </mat-card-title>
+
+        <mat-card-content> {{comment.content}} </mat-card-content>
+
+        <mat-card-subtitle> 
+
+            <div class="comment-interface">
+
+                <button #likeButton [disabled]="hasLikedThisComment" (click)="likeComment()">
+                    <mat-icon>{{likeIcon}}</mat-icon>
+                </button>
+
+                <div class="like-count">{{comment.likesCount? comment.likesCount : 0}}</div>
+                
+                <button *ngIf="!isChild" (click)="replyComment()">
+                    <mat-icon>reply</mat-icon>
+                </button>
+
+            </div>
+
+        </mat-card-subtitle>
+    </mat-card>
+</ng-container>

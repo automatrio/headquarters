@@ -32,15 +32,31 @@
                 </div>
             </cdk-virtual-scroll-viewport>
 
-            <cdk-virtual-scroll-viewport itemSize="20" class="comments-viewport">
+            <div class="comment-section" >
+            
 
-                <app-comment-tree 
-                    #commentTree
-                    [blogPost]="blogPosts[index]"
-                    *ngIf="isParentReady" >
-                </app-comment-tree>
+                <cdk-virtual-scroll-viewport itemSize="20" class="comments-viewport" #commentsViewport >
 
-            </cdk-virtual-scroll-viewport>
+                    <app-comment-tree 
+                        #commentTree
+                        [blogPost]="blogPosts[index]"
+                        *ngIf="isParentReady" 
+                        (hasComments)="checkForComments($event)"
+                        >
+                    </app-comment-tree>
+
+                </cdk-virtual-scroll-viewport>
+
+                <button 
+                    mat-raised-button class="comment-button"
+                    (click)="leaveComment()"
+                    >
+                    Leave a comment
+                </button>
+
+                <ng-container #container class="container"></ng-container>
+
+            </div>
         
         </mat-sidenav-content>
       

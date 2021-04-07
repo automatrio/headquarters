@@ -21,6 +21,7 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { MusicBlogComponent } from './_components/portfolio/music-blog/music-blog.component';
 import { CommentTreeComponent } from './_components/comment-tree/comment-tree.component';
 import { CommentBoxComponent } from './_components/comment-box/comment-box.component';
+import { CommentCreatorComponent } from './_components/comment-creator/comment-creator.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { CommentBoxComponent } from './_components/comment-box/comment-box.compo
     NavpieComponent,
     MusicBlogComponent,
     CommentTreeComponent,
-    CommentBoxComponent
+    CommentBoxComponent,
+    CommentCreatorComponent
   ],
   imports: [
     BrowserModule,

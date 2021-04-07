@@ -1,8 +1,9 @@
-export interface Comment {
+export class Comment {
     id?: number;
     author: string;
     content: string;
     date?: Date;
+    likesCount: number;
     parentBlogPostId: number;
     parentCommentId?: number;
 }

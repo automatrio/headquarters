@@ -7,6 +7,7 @@ namespace API.Entities
         public int Id { get; set; }
         public string Author { get; set; }
         public string Content { get; set; }
+        public int LikesCount { get; set; } = 0;
         public DateTime CreateDate { get; set; }
         public BlogPost ParentBlogPost { get; set; }
         

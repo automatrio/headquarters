@@ -17,7 +17,7 @@ export class LoginDialogOverlayRef
             take(1))
             .subscribe( () => 
             {
-                this.overlayRef.detachBackdrop();
+                this.overlayRef.backdropElement.remove();
                 animationStartedObservable.unsubscribe();
             });
 

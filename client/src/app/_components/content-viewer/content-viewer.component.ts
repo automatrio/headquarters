@@ -1,10 +1,9 @@
-import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
-import { AfterViewChecked, AfterViewInit, Component, ComponentRef, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { from, Observable } from 'rxjs';
+import { animateChild, query, transition, trigger } from '@angular/animations';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { from, Observable, Subject } from 'rxjs';
 import { BlogPost } from 'src/app/_models/blogPost';
-import { Comment, CommentNode } from 'src/app/_models/comment';
-import { CommentsService } from 'src/app/_services/comments.service';
+import { CommentCreation } from 'src/app/_models/commentCreation';
+import { CommentCreatorService } from 'src/app/_services/comment-creator.service';
 import { ContentService } from 'src/app/_services/content.service';
 import { NavpieOverlayService } from 'src/app/_services/navpie-overlay.service';
 import { CommentTreeComponent } from '../comment-tree/comment-tree.component';
@@ -14,7 +13,14 @@ const ANIMATION_TIMINGS = '1000ms cubic-bezier(0.25, 0.8, 0.25, 1)';
 @Component({
   selector: 'app-content-viewer',
   templateUrl: './content-viewer.component.html',
-  styleUrls: ['./content-viewer.component.css']
+  styleUrls: ['./content-viewer.component.css'],
+  animations: [
+    trigger('scale', [
+      transition(':enter, :leave', [
+        query('@*', animateChild())
+      ])
+    ])
+  ]
 })
 export class ContentViewerComponent implements OnInit, AfterViewInit, AfterViewChecked {
  
@@ -23,6 +29,8 @@ export class ContentViewerComponent implements OnInit, AfterViewInit, AfterViewC
   
   index: number = 0;
   buttons: Observable<HTMLElement[]>;
+
+  hasComments$ = new Subject<boolean>();
 
   @Input()
   contentType: "MusicBlog" | "Devlog" | "Model3DBlog" | "NewsBlog" | "PictureBlog";
@@ -33,12 +41,20 @@ export class ContentViewerComponent implements OnInit, AfterViewInit, AfterViewC
   @ViewChild(CommentTreeComponent)
     commentTree: CommentTreeComponent;
 
+  @ViewChild("commentsViewport", {read: ElementRef})
+    commentsViewport: ElementRef;
+
+  @ViewChild("container" , {read: ViewContainerRef})
+    container: ViewContainerRef;
+
   constructor(
     private contentService: ContentService,
-    private navpieOverlayService: NavpieOverlayService
+    private navpieOverlayService: NavpieOverlayService,
+    private commentCreatorService: CommentCreatorService
     )
-  { 
-  }
+  {}
+
+
   ngAfterViewChecked(): void {
     this.generateContentButtons();
     
@@ -142,4 +158,29 @@ export class ContentViewerComponent implements OnInit, AfterViewInit, AfterViewC
 
     }
   }
+
+  checkForComments(event: boolean)
+  {
+    const commentsViewport = (this.commentsViewport.nativeElement as HTMLElement);
+
+    if(event == false)
+    {
+      commentsViewport.style.display = "none";
+      return;
+    }
+    commentsViewport.style.display = "flex";
+  }
+
+  leaveComment()
+  {
+    const commentCreation = {
+      parentBlogPostId: this.blogPosts[this.index].id,
+      parentComment: null
+    } as CommentCreation;
+
+    const commentCreatorRef = this.commentCreatorService.displayCreator(commentCreation);
+    this.container.insert(commentCreatorRef.hostView);
+  }
+
+
 }

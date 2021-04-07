@@ -65,16 +65,28 @@ namespace API.Repository.CommentRepository
         {
             var comments = await _context.Comments
                 .Where(comment => comment.ParentBlogPost.Id == parentBlogPostId)
-                .OrderByDescending(comment => comment.CreateDate)
+                .OrderBy(comment => comment.CreateDate)
                 .Include(comment => comment.ParentBlogPost)
                 .ToListAsync();
 
             return _mapper.Map<List<CommentDTO>>(comments);
         }
 
+        public async Task<int> IncreaseLikesCountAsync(int commentId)
+        {
+            var comment = await _context.Comments.FindAsync(commentId);
+
+            comment.LikesCount += 1;
+
+            _context.Entry(comment).State = EntityState.Modified;
+
+            return comment.LikesCount;
+        }
+
         public async Task<bool> SaveAllChangesAsync()
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
     }
 }

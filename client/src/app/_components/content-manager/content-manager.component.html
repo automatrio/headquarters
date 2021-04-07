@@ -34,8 +34,8 @@
             <mat-label>Element</mat-label>
             <mat-select
                 class="form-field" 
-            name="element"
-            [(ngModel)]="managerOptions.blogPost"
+                name="element"
+                [(ngModel)]="managerOptions.blogPost"
                 (valueChange)="elementChosen($event)">
                 <mat-option *ngFor="let element of elements" [value]="element.title">
                     {{element?.title}}

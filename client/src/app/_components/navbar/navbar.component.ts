@@ -1,57 +1,57 @@
 import { animate, AnimationEvent, query, stagger, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
-import { from, Subject } from 'rxjs';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { Observable } from 'rxjs';
+import { slideAnimation, TIMING } from 'src/app/_helpers/animations';
 import { AccountService } from 'src/app/_services/account.service';
 import { LoginDialogOverlayService } from 'src/app/_services/login-dialog-overlay.service';
-
-export const TIMING = '1000ms cubic-bezier(0.25, 0.8, 0.25, 1)';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
-  animations: [
-      trigger('slide',[
-        transition('void => *', 
-            query(
-            /*1*/ "mat-toolbar-row.mat-toolbar-row.navbar-row",
-            /*2*/ [
-                    stagger(
-                      200,
-                      animate(TIMING, style({ transform: 'translateX(0px)' }))
-                      )
-                  ]
-            )
-          )
-      ]
-    )
-  ]
+  animations: slideAnimation
 })
+
 export class NavbarComponent implements OnInit, AfterViewInit {
 
-  mouseHover = '';
-  slideState: 'slideIn' | 'slideOut' = 'slideIn';
+  slideState: 'slideIn' | 'slideOut' = 'slideOut';
   originalColor: string = '';
   newColor: string = '';
   navbarRow = document.getElementsByClassName('navbar-row');
+  ready: boolean = false;
+  destination: string;
+
+  @Input()
+    slideAnimationState$ = new Observable<AnimationEvent>();
 
   @ViewChildren("navrow", {read: ElementRef})
-    navRows: QueryList<ElementRef>
+    navRow: QueryList<ElementRef>
 
   @Output()
-  switchMenusEvent = new EventEmitter<string>();
-
+    switchMenusEvent = new EventEmitter<string>();
 
   constructor(
     private loginDialogOverlayService: LoginDialogOverlayService,
-    public accountService: AccountService
-    ) {}
-
+    public accountService: AccountService) 
+    {}
 
   ngAfterViewInit(): void {
+    this.navRow.forEach( row => {
+      const currentRow = (row.nativeElement as HTMLElement);
+
+      currentRow.style.transform = "translateX(-1500px)";
+    });
   }
 
   ngOnInit(): void {
+    this.ready = true;
+    this.slideState = 'slideIn';
+
+    this.slideAnimationState$.subscribe(
+      event => {
+        this.onAnimationDone(event)
+      }
+    )
   }
 
   increaseAlpha(event: Event)
@@ -89,18 +89,6 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     currentElement.style.backgroundColor = this.originalColor.slice(0, -5) + "0.4)";
   }
 
-  async slideOutMenu(event: Event)
-  { 
-    await this.slideRows(
-      () => this.switchMenusEvent.emit((event.target as HTMLElement).id)
-      );
-  }
-
-  sleep(length)
-  {
-    return new Promise(resolve => setTimeout(resolve, length));
-  }
-
   onAnimationDone(event: AnimationEvent)
   {
     for (let i = 0; i < this.navbarRow.length; i++) {
@@ -113,31 +101,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     this.loginDialogOverlayService.open();
   }
 
-  async slideRows(next)
+  slideOutMenu(event: Event)
   {
-    for (let i = 0; i < this.navRows.length; i++) {
-
-      const finishedAnimationPromise = (this.navbarRow[i] as HTMLElement)?.animate(
-        {
-          transform: "translateX(-1500px)"
-        }, {duration: 600, easing: "cubic-bezier(0.25, 0.8, 0.25, 1)"}
-      ).finished;
-
-      const finishedAnimationObservable = from(finishedAnimationPromise).subscribe(
-        () => {
-          console.log("finally");
-          (this.navbarRow[i] as HTMLElement).style.transform = "translateX(-1500px)";
-
-          // continue from last animation
-          if(i == this.navbarRow.length - 1)
-          {
-            next();
-          }
-          finishedAnimationObservable.unsubscribe();
-        });
-
-      await this.sleep(200);
-    }
+    this.destination = (event.target as HTMLElement).id;
+    this.switchMenusEvent.emit(this.destination);
   }
 
 }

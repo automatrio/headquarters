@@ -15,7 +15,7 @@ span {
     margin: 0%;
     width: inherit;
     height: 30px;
-    transform: translateX(-1500px);
+    transform: translateX(0px);
 }
 
 .navbar-row:first-child {

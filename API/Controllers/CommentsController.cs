@@ -35,5 +35,13 @@ namespace API.Controllers
 
             return newComment;
         }
+
+        [HttpPost("like/{commentId}")]
+        public async Task<ActionResult<int>> LikeComment(int commentId)
+        {
+            int newLikesCount = await _commentRepository.IncreaseLikesCountAsync(commentId);
+            await _commentRepository.SaveAllChangesAsync();
+            return newLikesCount;
+        }
     }
 }
