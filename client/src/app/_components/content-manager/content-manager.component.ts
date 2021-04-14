@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { Navigation, Router } from '@angular/router';
+import { ActionOptions } from 'src/app/_models/actionOptions';
 import { BlogPost } from 'src/app/_models/blogPost';
-import { ManagerOptions } from 'src/app/_models/managerOptions';
-import { Media } from 'src/app/_models/media';
+import { BlogPostEdit } from 'src/app/_models/blogPostEdit';
+import { HyperlinkModel } from 'src/app/_models/hyperlinkModel';
+import { ActionOverlayService } from 'src/app/_services/action-overlay.service';
 import { ContentService } from 'src/app/_services/content.service';
-import { MediaService } from 'src/app/_services/media.service';
+import { defaultActionDialogConfig } from './action-dialog/action-dialog-config';
+import { HyperlinkDialogComponent } from './hyperlink-dialog/hyperlink-dialog.component';
 
 @Component({
   selector: 'app-content-manager',
@@ -14,71 +18,95 @@ import { MediaService } from 'src/app/_services/media.service';
 })
 export class ContentManagerComponent implements OnInit {
 
-  actionValue: string = "create";
-  contentTypeValue: string;
-  elementValue: BlogPost | "choose content type";
-  managerOptions: ManagerOptions = {action: "create", type:"MusicBlog", blogPost:({title: "New BlogPost", content:"Say something"} as BlogPost)};
+  navigation: Navigation;
+  postModel: BlogPost;
+  actionChosen: 'create' | 'edit' | 'delete';
+  currentStep: number = 0;
 
-  contentTypes = ["MusicBlog", "Devlog", "Model3DBlog", "NewsBlog", "PictureBlog"];
-  elements: BlogPost[] = [this.managerOptions.blogPost];
+  @Listener
 
-  constructor(
-    private contentService: ContentService,
-    private mediaService: MediaService)
-    {}
+  @ViewChild('textRef', {read: ElementRef})
+    textRef: ElementRef;
 
-  ngOnInit(): void {
-  }
+  @ViewChild('managerForm')
+    managerForm: NgForm;
 
-  fetchElements(contentType)
-  {
-    console.log("fetching elements")
-    this.contentService.fetchBlogPosts(contentType).pipe(
-      map(
-        response => this.elements = response
-      )
-    );
-  }
-
-  contentTypeChosen(event: 'MusicBlog' | 'Devlog' | 'Model3DBlog' | 'NewsBlog' | 'PictureBlog')
-  {
-    if(this.actionValue == "edit")
+  @HostListener('window:beforeunload', ['$event'])
+    unloadNotification($event: Event)
     {
-      this.contentService.fetchBlogPosts(event).subscribe(
-        (response: BlogPost[]) => this.elements = response
-      );
+      if(this.managerForm.dirty)
+      {
+        $event.returnValue = true;
+      }
     }
 
+  constructor(
+    private actionOverlayService: ActionOverlayService,
+    private contentService: ContentService,
+    private matDialog: MatDialog,
+    private router: Router)
+  {
+    this.navigation = this.router.getCurrentNavigation();
   }
 
-  actionChosen(event)
-  {
-    this.actionValue = event;
-    this.elements = [];
-    this.elements.push({title: "New BlogPost"} as BlogPost);
+  ngOnInit(): void {
+    const actionOverlayRef = this.actionOverlayService.callActionOverlay(defaultActionDialogConfig, this.currentStep, this.actionChosen);
+    const subscription = actionOverlayRef.component.finishedActionEvent.subscribe(
+      (response: ActionOptions) => {
+        this.postModel = response.element;
+        this.actionChosen = response.action;
+        actionOverlayRef.close();
+        subscription.unsubscribe();
+    });
   }
 
-  elementChosen(event: Event)
+
+  UI_returnToPreviousRoute()
   {
-    // console.log(event)
-    return;
+    this.router.navigateByUrl(this.navigation.initialUrl, {skipLocationChange: false});
   }
 
-  go()
+  action_createPost()
   {
-    console.log(this.actionValue + " is the way.");
-    switch (this.actionValue) {
-      case "create":
+    this.currentStep = 1;
+    this.actionChosen = 'create';
+    this.ngOnInit();
+  }
+
+  action_editPost()
+  {
+    this.currentStep = 1;
+    this.actionChosen = 'edit';
+    this.ngOnInit();
+  }
+
+  action_deletePost()
+  {
+    this.currentStep = 1;
+    this.actionChosen = 'delete';
+    this.ngOnInit();
+  }
+
+  manage_publish()
+  {
+    switch(this.actionChosen) {
+      case 'create':
       {
-        const newMedia: Media[] = [];
-        const newPost = {
-          title: this.managerOptions.title,
-          content: this.managerOptions.content,
-          type: this.managerOptions.type,
-          media: newMedia
-        } as BlogPost;
-
-        this.contentService.postNewContent(newPost).subscribe(
+        console.log("creating new blog post");
+        this.contentService.postNewContent(this.postModel).subscribe(
+          response => console.log(response)
+        );
+        break;
+      }
+      case 'edit':
+      {
+        const edit = {
+          id: this.postModel.id,
+          title: this.postModel.title,
+          content: this.postModel.content,
+          media: this.postModel.media
+        } as BlogPostEdit;
+        this.contentService.updateBlogPost(edit).subscribe(
           response => console.log(response)
         );
         break;
@@ -86,6 +114,102 @@ export class ContentManagerComponent implements OnInit {
       default:
         break;
     }
+    this.router.navigateByUrl(this.navigation.initialUrl, {skipLocationChange: false});
+  }
+
+  manage_preview()
+  {
+
+  }
+
+  manage_cancel()
+  {
+
+  }
+
+  private format(style: string)
+  {
+    const textArea = (this.textRef.nativeElement as HTMLTextAreaElement);
+
+    const selectionStart = textArea.selectionStart;
+    const selectionEnd = textArea.selectionEnd;
+    const selectedText = textArea.value.substring(selectionStart, selectionEnd);
+
+    textArea.value =
+      textArea.value.slice(0, selectionStart)
+      + '<' + style + '>' + selectedText + '</' + style + '>'
+      + textArea.value.slice(selectionEnd, textArea.value.length);
+  }
+
+  format_bold()
+  {
+    this.format('b');
+  }
+
+  format_italic()
+  {
+    this.format('i');
+  }
+
+  format_underlined()
+  {
+    this.format('u');
+  }
+
+  format_insertQuote()
+  {
+    this.format('blockquote');
+  }
+
+  format_insertCodeSnippet()
+  {
+
+  }
+
+  private openHyperlinkDialog(selection?: string) : MatDialogRef<HyperlinkDialogComponent>
+  {
+    return this.matDialog.open(HyperlinkDialogComponent, {
+      width: '400px',
+      hasBackdrop: true,
+      panelClass: 'hyperlink-dialog-panel',
+      backdropClass: 'dark-backdrop',
+      data: selection
+    });
+  }
+
+  format_insertHyperlink()
+  {
+    const textArea = (this.textRef.nativeElement as HTMLTextAreaElement);
+
+    const selectionStart = textArea.selectionStart;
+    const selectionEnd = textArea.selectionEnd;
+    const selectedText = textArea.value.substring(selectionStart, selectionEnd);
+
+    let dialogRef = this.openHyperlinkDialog(selectedText);
+
+    dialogRef.afterClosed().subscribe((response: HyperlinkModel) => {
+      textArea.value =
+      textArea.value.slice(0, selectionStart)
+      + '<a href="' + response.url + '">' + response.textShown + '</a>'
+      + textArea.value.slice(selectionEnd, textArea.value.length);
+    });
+
+
+  }
+
+  media_insertAudiotrack()
+  {
+
+  }
+
+  media_insertModel3D()
+  {
+
+  }
+
+  media_insertPicture()
+  {
+
   }
 }
 
