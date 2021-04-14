@@ -39,10 +39,10 @@ namespace API.Controllers
             return await _adminRepository.GetAdminByUsernameAsync(username);
         }
 
-        [HttpGet("{username}/{pictureId}")]
-        public async Task<ActionResult<PictureDTO>> GetPictureFromAdminAsync(string username, int pictureId)
+        [HttpGet("{username}/{PictureId}")]
+        public async Task<ActionResult<PictureDTO>> GetPictureFromAdminAsync(string username, int PictureId)
         {
-            return _mapper.Map<PictureDTO>(await _adminRepository.GetPictureFromAdminAsync(username, pictureId));
+            return _mapper.Map<PictureDTO>(await _adminRepository.GetPictureFromAdminAsync(username, PictureId));
         }
     }
 }

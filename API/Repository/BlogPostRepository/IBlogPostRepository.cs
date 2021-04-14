@@ -8,8 +8,9 @@ namespace API.Repository.BlogPostRepository
     public interface IBlogPostRepository : IRepository
     {
         public Task<List<BlogPostDTO>> GetBlogPostsByTypeAsync(string type);
-        public Task<BlogPostDTO> GetBlogPostByIdAsync(int id);
+        public Task<BlogPost> GetBlogPostByIdAsync(int id);
         public Task<BlogPostDTO> CreateBlogPost(BlogPostDTO blogPost);
-        void Update(BlogPost blogPost);
+        public Task DeleteBlogPost(int blogPostId);
+        public void Update(BlogPost blogPost);
     }
 }

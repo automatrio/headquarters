@@ -1,0 +1,24 @@
+ul
+{
+    text-align: center;
+    list-style-type: none;
+    margin: none;
+    padding: 10px;
+}
+
+.big-logo
+{
+    width: 100%;
+}
+
+li
+{
+    padding: 0;
+}
+
+h1
+{
+    color: white;
+    font-weight: bold;
+    margin: 0;
+}

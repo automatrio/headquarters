@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, OnInit, Output, ViewChild, ViewContainerRef, ViewRef } from '@angular/core';
 import { Comment } from 'src/app/_models/comment';
 import { CommentCreation } from 'src/app/_models/commentCreation';
 import { CommentCreatorService } from 'src/app/_services/comment-creator.service';
 import { CommentsService } from 'src/app/_services/comments.service';
+import { CommentCreatorRef } from '../comment-creator/comment-creator-ref';
 
 @Component({
   selector: 'app-comment-box',
@@ -56,11 +57,14 @@ export class CommentBoxComponent implements OnInit, AfterViewInit {
 
   replyComment()
   {
+    console.log("emitting reply request")
     this.replyQueuedEvent.emit(this.comment.id);
   }
 
-  callCommentCreator()
+  callCommentCreator() : CommentCreatorRef
   {
+    console.log("creating comment-creator component")
+
     const commentCreation = {
       parentBlogPostId: this.comment.parentBlogPostId,
       parentCommentId: this.comment.id
@@ -68,6 +72,8 @@ export class CommentBoxComponent implements OnInit, AfterViewInit {
     const creatorRef = this.commentCreatorService.displayCreator(commentCreation);
     
     this.container.insert(creatorRef.hostView);
+
+    return creatorRef;
   }
 
 }

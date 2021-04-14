@@ -7,8 +7,8 @@ $custom-typography:    mat-typography-config(
 
 @include mat-core($custom-typography);
 
-$headquarters-primary: mat-palette($mat-gray, A500, A300, A800);
-$headquarters-accent:  mat-palette($mat-indigo, A300, A100, A800);
+$headquarters-primary: mat-palette($mat-gray, A900, A900, A900);
+$headquarters-accent:  mat-palette($mat-indigo, A900, A900, A900);
 $headquarters-warn:    mat-palette($mat-red);
 
 $headquarters-theme: mat-dark-theme((

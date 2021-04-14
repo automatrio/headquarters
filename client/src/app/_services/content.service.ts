@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BlogPost } from '../_models/blogPost';
+import { BlogPostEdit } from '../_models/blogPostEdit';
 import { MediaService } from './media.service';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class ContentService {
     private mediaService: MediaService
     ) { }
 
-  fetchBlogPosts(contentType: 'MusicBlog' | 'Devlog' | 'Model3DBlog' | 'NewsBlog' | 'PictureBlog') : Observable<BlogPost[]>
+  fetchBlogPosts(contentType: string) : Observable<BlogPost[]>
   {
     return this.httpClient.get<BlogPost[]>(environment.APIUrl + 'blogpost/type/' + contentType);
   }
@@ -30,5 +31,13 @@ export class ContentService {
     return this.httpClient.post<BlogPost>(environment.APIUrl + 'blogpost', content);
   }
   
+  deleteBlogPost(blogPostId: number)
+  {
+    return this.httpClient.delete(environment.APIUrl + 'blogpost/delete/' + blogPostId);
+  }
 
+  updateBlogPost(content: BlogPostEdit)
+  {
+    return this.httpClient.put(environment.APIUrl + 'blogpost', content);
+  }
 }

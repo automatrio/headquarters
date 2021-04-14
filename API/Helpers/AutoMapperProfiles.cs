@@ -27,6 +27,7 @@ namespace API.Helpers
                         comment => comment.ParentComment.Id
                     )  
                 );
+            CreateMap<BlogPostEditDTO, BlogPost>();
         }
     }
 }

@@ -1,0 +1,58 @@
+ul
+{
+    list-style-type: none;
+}
+
+.action-step
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.mat-fab
+{
+    display: flex;
+    width: 80px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+    margin: 25px;
+}
+
+.mat-icon
+{
+    display: flex;
+    font-size: 35pt;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-button:hover
+{
+    transform: scale(1.25);
+}
+
+.type-step
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.element-step
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+button
+{
+    margin: 25px;
+    transition: 150ms;
+}
+
+button:hover
+{
+    transform: scale(1.25);
+}

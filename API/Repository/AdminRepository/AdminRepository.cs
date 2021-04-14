@@ -51,10 +51,10 @@ namespace API.Repository
             _context.Entry(admin).State = EntityState.Modified;
         }
 
-        public async Task<PictureDTO> GetPictureFromAdminAsync(string username, int pictureId)
+        public async Task<PictureDTO> GetPictureFromAdminAsync(string username, int PictureId)
         {
             var admin = await GetAdminByUsernameAsync(username);
-            return admin.Pictures.First(picture => picture.Id == pictureId);
+            return admin.Pictures.First(Picture => Picture.Id == PictureId);
         }
     }
 }

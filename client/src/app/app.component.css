@@ -1,0 +1,12 @@
+.mat-drawer-container
+{
+    height: 100%;
+    background: none;
+}
+
+.info-display
+{
+    background: none;
+    position: fixed;
+    width: 22%;
+}

@@ -10,6 +10,7 @@ namespace API.Repository.MediaRepository
         public Task<List<Media>> GetMediaByTypeAsync(string mediaType);
         public Task<List<Media>> GetMediaByBlogAsync(int blogId);
         public Task AttachNewMediaToBlogAsync(MediaDTO media);
+        public Task<MediaDTO> InsertNewMedia(MediaDTO media);
         void Update(Media media);
     }
 }

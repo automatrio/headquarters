@@ -1,0 +1,18 @@
+.content-button
+{
+    margin-bottom: 38px;
+    height: 50px;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    width: fit-content;
+    text-align: left;
+    color: white;
+    transition: 150ms;
+}
+
+.content-button:hover
+{
+    border-color: rgba(255, 255, 255, 0.521);
+    background-color: rgba(140, 209, 255, 0.45);
+    color: white;
+}

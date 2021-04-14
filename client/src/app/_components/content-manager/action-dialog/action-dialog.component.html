@@ -1,0 +1,48 @@
+<div class="action-dialog">
+
+    <ul class="action-step" *ngIf="actionStep == 0">
+
+        <li><button 
+            mat-fab
+            matTooltip="Create"
+            id="create"
+            (click)="onActionChosen($event)">
+                <mat-icon>add_circle</mat-icon></button></li>
+
+        <li><button 
+            mat-fab
+            matTooltip="Edit"
+            id="edit"
+            (click)="onActionChosen($event)">
+                <mat-icon>create</mat-icon></button></li>
+
+        <li><button 
+            mat-fab
+            matTooltip="Delete"
+            id="delete"
+            (click)="onActionChosen($event)">
+                <mat-icon>delete</mat-icon></button></li>
+
+    </ul>
+
+    <ul class="type-step" *ngIf="actionStep == 1">
+        <button
+            mat-raised-button 
+            class="type-button"
+            *ngFor="let type of contentTypes"
+            id="{{type}}"
+            (click)="onTypeChosen($event)"
+            >{{type}}</button>
+    </ul>
+
+    <ul class="element-step" *ngIf="blogPosts.length > 0">
+        <button
+            mat-raised-button 
+            class="element-button"
+            *ngFor="let post of blogPosts"
+            value="{{post.id}}"
+            (click)="onElementChosen($event)"
+            >{{post.title}}</button>
+    </ul>
+
+</div>

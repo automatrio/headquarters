@@ -5,6 +5,9 @@ using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -75,6 +78,7 @@ namespace API.Controllers
                 Token = _tokenService.CreateToken(loggedAdmin)
             };
         }
+        
         private async Task<bool> AdminExists(string username)
         {
             return await _context.Admins.AnyAsync(u => u.UserName == username.ToLower());

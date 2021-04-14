@@ -22,6 +22,10 @@ import { MusicBlogComponent } from './_components/portfolio/music-blog/music-blo
 import { CommentTreeComponent } from './_components/comment-tree/comment-tree.component';
 import { CommentBoxComponent } from './_components/comment-box/comment-box.component';
 import { CommentCreatorComponent } from './_components/comment-creator/comment-creator.component';
+import { InfoDisplayComponent } from './_components/info-display/info-display.component';
+import { ButtonCascadeComponent } from './_components/button-cascade/button-cascade.component';
+import { ActionDialogComponent } from './_components/content-manager/action-dialog/action-dialog.component';
+import { HyperlinkDialogComponent } from './_components/content-manager/hyperlink-dialog/hyperlink-dialog.component';
 
 
 @NgModule({
@@ -37,7 +41,11 @@ import { CommentCreatorComponent } from './_components/comment-creator/comment-c
     MusicBlogComponent,
     CommentTreeComponent,
     CommentBoxComponent,
-    CommentCreatorComponent
+    CommentCreatorComponent,
+    InfoDisplayComponent,
+    ButtonCascadeComponent,
+    ActionDialogComponent,
+    HyperlinkDialogComponent
   ],
   imports: [
     BrowserModule,

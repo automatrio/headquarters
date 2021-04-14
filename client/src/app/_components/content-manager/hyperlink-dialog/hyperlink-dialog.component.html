@@ -1,0 +1,40 @@
+<div class="hyperlink-dialog-container">
+
+    <form class="hyperlink-form" #ngForm (ngSubmit)="submit()">
+
+        <mat-form-field>
+            <mat-label>Text to be shown</mat-label>
+            <input class="hyperlink-input"
+                matInput
+                name="textShown"
+                [(ngModel)]="hyperlinkModel.textShown">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>URL</mat-label>
+            <input class="hyperlink-input"
+                matInput 
+                name="url"
+                [(ngModel)]="hyperlinkModel.url">
+        </mat-form-field>
+
+        <div class="buttons-row">
+
+            <button
+                mat-raised-button
+                type="submit">
+                <mat-icon>check</mat-icon>
+            </button>
+
+            <button
+                mat-raised-button
+                color="warn"
+                type="button"
+                (click)="cancel()">
+                <mat-icon>close</mat-icon>
+            </button>
+
+        </div>
+
+    </form>
+</div>

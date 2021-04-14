@@ -12,6 +12,6 @@ namespace API.Repository
         Task<IEnumerable<Admin>> GetAdminsAsync();
         Task<Admin> GetAdminByIdAsync(int id);
         Task<PublicAdminDTO> GetAdminByUsernameAsync(string username);
-        Task<PictureDTO> GetPictureFromAdminAsync(string username, int pictureId);
+        Task<PictureDTO> GetPictureFromAdminAsync(string username, int PictureId);
     }
 }

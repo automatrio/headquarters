@@ -27,6 +27,7 @@ namespace API.Repository.BlogPostRepository
             {
                 Type = (BlogType)Enum.Parse(typeof(BlogType), blogPostDTO.Type),
                 Title = blogPostDTO.Title,
+                CreateDate = DateTime.UtcNow,
                 Content = blogPostDTO.Content,
                 Media = blogPostDTO.Media?.ToList()
             };
@@ -44,14 +45,14 @@ namespace API.Repository.BlogPostRepository
                 )
                 .Include(blogPost => blogPost.Media)
                 .ProjectTo<BlogPostDTO>(_mapper.ConfigurationProvider)
+                .OrderBy(blogPost => blogPost.CreateDate)
                 .ToListAsync();
         }
 
-        public async Task<BlogPostDTO> GetBlogPostByIdAsync(int id)
+        public async Task<BlogPost> GetBlogPostByIdAsync(int id)
         {
             return await _context.BlogPosts
                 .Where(blogPost => blogPost.Id == id)
-                .ProjectTo<BlogPostDTO>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
         }
 
@@ -62,7 +63,19 @@ namespace API.Repository.BlogPostRepository
 
         public void Update(BlogPost blogPost)
         {
-            _context.Entry(blogPost).State = EntityState.Modified;
+            _context.BlogPosts.Update(blogPost);
+        }
+
+        public async Task DeleteBlogPost(int blogPostId)
+        {
+            var blogPostToDelete = await _context.BlogPosts
+                .Include(blogPost => blogPost.Media)
+                .Include(blogPost => blogPost.Comments)
+                .SingleOrDefaultAsync(blogPost => blogPost.Id == blogPostId);
+                
+            _context.BlogPosts.Remove(blogPostToDelete);
+
+            // _context.Entry(blogPostToDelete).State = EntityState.Deleted;
         }
     }
 }

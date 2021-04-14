@@ -23,13 +23,7 @@ export class CommentsService {
 
   createNewComment(comment: Comment)
   {
-    return this.httpClient.post(environment.APIUrl + 'comments/', comment).pipe(
-      map(
-        response => {
-          this.commentCreated$.next(true);
-          return response;
-      })
-    );
+    return this.httpClient.post(environment.APIUrl + 'comments/', comment);
   }
 
   deleteComment(commentId: number)

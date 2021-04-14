@@ -43,7 +43,7 @@ export class AppComponent {
 
   async switchNavMenus(event: string)
   {
-    await this.router.navigateByUrl(event).finally( () => this.isNavbar = false);
+    const thing = await this.router.navigateByUrl(event).finally( () => this.isNavbar = false );
   }
 
   onSlideAnimationDone(event: AnimationEvent)

@@ -4,47 +4,50 @@
 (@slide.start)="onAnimationStart($event)" 
 (@slide.done)="onAnimationDone($event)">
 
-    <span class="panel-title">
+    <h1>
         Welcome!
-    </span>
+    </h1>
 
     <form
         #loginForm="ngForm"
-        class="login-form"
         (ngSubmit)="login()"
         autocomplete="off"
-        [@slide]='slideState'
-    >
-        <input 
-            name="username"
-            type="text"
-            placeholder="Username"
-            [(ngModel)]="model.username"
-            >
-        <input 
-            name="password"
-            type="password"
-            placeholder="Password"
-            [(ngModel)]="model.password"
-            >
+        [@slide]='slideState'>
 
-        <ul class="button-row">
-            <button 
-                class="login-button"
+        <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input class="hyperlink-input"
+                matInput
+                name="username"
+                [(ngModel)]="model.username">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input class="hyperlink-input"
+                matInput
+                name="password"
+                type="password"
+                [(ngModel)]="model.password">
+        </mat-form-field>
+
+        <div class="button-row">
+            <button
+                mat-raised-button
                 type="submit"
                 >
                 Log In
             </button>
             <button 
-                class="cancel-button"
+                mat-raised-button
+                color="warn"
                 type="button"
                 (click)="cancel()"
                 >
                 Cancel
             </button>
-        </ul>
+        </div>
 
 
     </form>
-
 </div>

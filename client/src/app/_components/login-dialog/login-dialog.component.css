@@ -1,34 +1,22 @@
 .login-dialog-content
 {
-    background-color: rgba(255,255,255,.8);
+    background-color: rgba(27, 27, 27, 0.5);
     border: 2pt solid white;
     border-radius: 6px;
-    padding: 20px;
-    position: relative;
+    padding: 60px;  
 }
 
-.panel-title
+form
 {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 16pt;
-    font-weight: bold;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 20px;
 }
 
-
-.login-form
+.mat-form-field
 {
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 2;
+    font-size: 14pt;
 }
 
 .button-row
@@ -38,45 +26,14 @@
     padding: 4px;
 }
 
-input
+button
 {
-    height: 25px;
-    margin-bottom: 4px;
-    width: 100%;
-    border: 1px solid #555; 
-    border-radius: 2px;
-    z-index: 3;
+    font-size: 14pt;
+    margin: 15px;
+    transition: 150ms;
 }
 
-.login-button
+button:hover
 {
-    background-color: rgb(81, 255, 119,.75);
-    padding: 8px;
-    margin: 2px;
-    border: 2px solid rgb(91, 168, 80);
-    width: 75px;
-    border-radius: 4px;
-    color: rgb(36, 36, 36);
-}
-
-.login-button:hover
-{
-    background-color: rgb(171, 241, 188);
-}
-
-.cancel-button
-{
-    
-    background-color: rgb(150, 150, 150, .5);
-    padding: 8px;
-    margin: 2px;
-    border: 2px solid rgb(136, 136, 136);
-    width: 75px;
-    border-radius: 4px;
-    color: rgb(36, 36, 36);
-}
-
-.cancel-button:hover
-{
-    background-color: rgb(192, 192, 192);
+    transform: scale(1.15);
 }

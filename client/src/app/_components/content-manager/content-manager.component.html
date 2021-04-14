@@ -1,68 +1,137 @@
-<form 
-    (ngSubmit)="go()"
-    class="instruction-form">
-    <mat-form-field appearance="fill">
-        <mat-label>Action</mat-label>
-        <mat-select
-            class="form-field"
-            name="action"
-            [(ngModel)]="managerOptions.action"
-            (value)="this.actionValue"
-            (valueChange)="actionChosen($event)" >
-            <mat-option value="create">Create</mat-option>
-            <mat-option value="edit">Edit</mat-option>
-            <mat-option value="delete">Delete</mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-        <mat-label>Content type</mat-label>
-        <mat-select
-            class="form-field"
-            name="contentType"
-            [(ngModel)]="managerOptions.type"
-            (valueChange)="contentTypeChosen($event)">
-            <mat-option *ngFor="let type of contentTypes" value="{{type}}">
-                {{type}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+<div class="manager-editor" *ngIf="postModel">
     
-    <div class="last-row">
+    <button class="call-sidenav-button" mat-button (click)="UI_returnToPreviousRoute()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <form #managerForm="ngForm" class="manager-form">
         
-        <mat-form-field appearance="fill">
-            <mat-label>Element</mat-label>
-            <mat-select
-                class="form-field" 
-                name="element"
-                [(ngModel)]="managerOptions.blogPost"
-                (valueChange)="elementChosen($event)">
-                <mat-option *ngFor="let element of elements" [value]="element.title">
-                    {{element?.title}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div class="manager-frame">
 
-        <button mat-button color="warn" class="go-button" type="submit"> Go </button>
+            <div class="manager-toolbar">
 
-    </div>
+                <div class="toolbar-section">
+                    <label>Actions</label>
+                    <ul class="buttons">
+                        <li><button 
+                            mat-raised-button 
+                            matTooltip="Create"
+                            (click)="action_createPost()">
+                                <mat-icon>add_circle</mat-icon></button></li>
+                        <li><button 
+                            mat-raised-button 
+                            matTooltip="Edit"
+                            (click)="action_editPost()">
+                                <mat-icon>create</mat-icon></button></li>
+                        <li><button 
+                            mat-raised-button 
+                            matTooltip="Delete"
+                            (click)="action_deletePost()">
+                                <mat-icon>delete</mat-icon></button></li>
+                        <li></li>
+                    </ul>
+                </div>
 
-    <input
-    matInput
-    class="title-input"
-    name="title"
-    type="text"
-    placeholder="Title"
-    [(ngModel)]="managerOptions.title"
-    >
-    <textarea 
-    matInput
-    class="content-input"
-    name="content"
-    type="text"
-    placeholder="Say something."
-    [(ngModel)]="managerOptions.content"
-    >
-    </textarea>
-</form>
+                <div class="toolbar-section">
+                    <label>Format</label>
+                    <ul class="buttons">
+                        <li><button 
+                            mat-button 
+                            matTooltip="Bold"
+                            (click)="format_bold()">
+                                <mat-icon>format_bold</mat-icon></button></li>
+                        <li><button 
+                            mat-button 
+                            matTooltip="Italic"
+                            (click)="format_italic()">
+                                <mat-icon>format_italic</mat-icon></button></li>
+                        <li><button 
+                            mat-button 
+                            matTooltip="Underlined"
+                            (click)="format_underlined()">
+                                <mat-icon>format_underlined</mat-icon></button></li>
+                        <li><button 
+                            mat-button 
+                            matTooltip="Quote"
+                            (click)="format_insertQuote()">
+                                <mat-icon>format_quote</mat-icon></button></li>
+                        <li><button 
+                            mat-button 
+                            matTooltip="Code"
+                            (click)="format_insertCodeSnippet()">
+                                <mat-icon>code</mat-icon></button></li>
+                        <li><button 
+                            mat-button 
+                            matTooltip="Link"
+                            (click)="format_insertHyperlink()">
+                                <mat-icon>link</mat-icon></button></li>
+                        <li></li>
+                    </ul>
+                </div>
 
+                <div class="toolbar-section">
+                    <label>Media</label>
+                    <ul class="buttons">
+                        <li><button 
+                            mat-button 
+                            matTooltip="Audio"
+                            (click)="media_insertAudiotrack()"><mat-icon>audiotrack</mat-icon></button></li>
+                        <li><button 
+                            mat-button
+                            matTooltip="3D Model"
+                            (click)="media_insertModel3D()"><mat-icon>view_in_ar</mat-icon></button></li>
+                        <li><button 
+                            mat-button 
+                            matTooltip="Picture"
+                            (click)="media_insertPicture()"><mat-icon>image</mat-icon></button></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <hr style="width: 100%">
+
+
+            <mat-form-field class="manager-input title-input">
+                <mat-label>Title</mat-label>
+                <input 
+                    matInput
+                    placeholder="Title"
+                    name="title"
+                    [(ngModel)]="postModel.title">
+            </mat-form-field>
+            
+            <mat-form-field class="manager-input text-input">
+                <mat-label>Content</mat-label>
+                <textarea
+                    #textRef
+                    matInput rows="20" wrap="hard"
+                    name="content"
+                    [(ngModel)]="postModel.content"></textarea>
+            </mat-form-field>
+
+
+            <div class="manager-actions">
+
+                <ul class="action-buttons">
+                    <li><button 
+                        mat-raised-button 
+                        matTooltip="Publish" 
+                        color="primary"
+                        (click)="manage_publish()"><mat-icon>publish</mat-icon></button></li>
+                    <li><button 
+                        mat-raised-button 
+                        matTooltip="Preview" 
+                        color="accent"
+                        (click)="manage_preview()"><mat-icon>preview</mat-icon></button></li>
+                    <li><button 
+                        mat-raised-button 
+                        matTooltip="Cancel"  
+                        color="warn"
+                        (click)="manage_cancel()"><mat-icon>cancel</mat-icon></button></li>
+                </ul>
+
+            </div>
+        </div>
+    </form>
+</div>

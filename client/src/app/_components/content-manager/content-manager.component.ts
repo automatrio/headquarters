@@ -23,8 +23,6 @@ export class ContentManagerComponent implements OnInit {
   actionChosen: 'create' | 'edit' | 'delete';
   currentStep: number = 0;
 
-  @Listener
-
   @ViewChild('textRef', {read: ElementRef})
     textRef: ElementRef;
 

@@ -1,15 +1,25 @@
-<mat-toolbar 
-  class="navbar"
-  *ngIf="isNavbar"
-  @slide
-  (@slide.done)="onSlideAnimationDone($event)"
->
-  <app-navbar (switchMenusEvent)="switchNavMenus($event)" [slideAnimationState$]="animationEvent$" ></app-navbar>
-</mat-toolbar>
+<mat-sidenav-container class="sidenav-container" autosize>
 
+  <mat-sidenav mode="side" position="end" opened class="info-display">
 
+    <app-info-display></app-info-display>
 
+  </mat-sidenav>
 
-<body>
-  <router-outlet></router-outlet>
-</body>
+  <mat-sidenav-content>
+
+      <mat-toolbar
+      class="navbar"
+      *ngIf="isNavbar"
+      @slide
+      (@slide.done)="onSlideAnimationDone($event)">
+
+      <app-navbar (switchMenusEvent)="switchNavMenus($event)" [slideAnimationState$]="animationEvent$" ></app-navbar>
+
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

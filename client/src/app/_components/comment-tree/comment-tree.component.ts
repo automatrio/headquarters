@@ -37,12 +37,10 @@ export class CommentTreeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
   ngOnDestroy(): void {
-    this.commentCreationSubscription.unsubscribe();
+    this.commentCreationSubscription?.unsubscribe();
   }
 
-  ngAfterViewInit(): void {}
-
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.fetchComments();
     this.commentCreationSubscription = this.commentsService.commentCreated$.subscribe(
       () => {
@@ -50,9 +48,13 @@ export class CommentTreeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  ngOnInit(): void {
+
+  }
+
   private fetchComments()
   {
-    const fetchComments = this.commentsService.getCommentsByBlogPost(this.blogPost.id).subscribe(
+    const fetchComments = this.commentsService.getCommentsByBlogPost(this.blogPost?.id).subscribe(
       (response: Comment[]) => {
 
         if(response.length > 0)
@@ -115,6 +117,7 @@ export class CommentTreeComponent implements OnInit, AfterViewInit, OnDestroy {
     componentRef.instance.replyQueuedEvent.subscribe(
       (parentCommentId: number) =>
       {
+        console.log("subscription successful")
         this.pushCommentBoxesDown(parentCommentId);
       }
     );
@@ -131,7 +134,7 @@ export class CommentTreeComponent implements OnInit, AfterViewInit, OnDestroy {
           (!!comment.parentCommentId));
 
         this.container.insert(commentRef.hostView);
-        this.containerChildren.push(commentRef.instance)
+        this.containerChildren.push(commentRef.instance);
       }
     );
   }
@@ -139,16 +142,16 @@ export class CommentTreeComponent implements OnInit, AfterViewInit, OnDestroy {
   reset() {
     this.container.clear();
     this.comments = [];
-    this.ngOnInit();
+    this.ngAfterViewInit();
   }
 
   pushCommentBoxesDown(parentCommentId: number)
   {
     const index = this.comments.findIndex(comment => comment.id == parentCommentId);
 
-    let finishedAnimationPromise: Promise<Animation>;
+    const commentCreatorRef = this.containerChildren[index].callCommentCreator();
 
-    this.containerChildren[index].callCommentCreator();
+    commentCreatorRef.changeAnimationState('on');
   }
 
 }

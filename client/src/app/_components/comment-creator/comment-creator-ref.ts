@@ -16,4 +16,9 @@ export class CommentCreatorRef
     {
         this.componentRef.destroy();
     }
+
+    changeAnimationState(state: "off" | "on")
+    {
+        this.componentRef.instance.animationState = state; 
+    }
 }

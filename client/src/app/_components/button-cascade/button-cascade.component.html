@@ -1,0 +1,15 @@
+<div [@slide]="blogPosts?.length">
+
+    <li *ngFor="let blogPost of blogPosts">
+
+        <button
+            mat-raised-button
+            class="content-button"
+            (click)="changeIndex($event)"
+            value="{{blogPost.id}}">
+                {{blogPost.title}}
+        </button>
+
+    </li>
+
+</div>

@@ -23,6 +23,11 @@ namespace API.Extensions
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = config.GetSection("OAuthCredentials")["ClientId"];
+                    options.ClientSecret = config.GetSection("OAuthCredentials")["ClientSecret"];
                 });
 
             return services;

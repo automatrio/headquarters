@@ -5,6 +5,7 @@ using API.Repository.BlogPostRepository;
 using API.Repository.CommentRepository;
 using API.Repository.MediaRepository;
 using API.Services;
+using API.Services.PictureService;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,7 @@ namespace API.Extensions
             services.AddScoped<IMediaRepository, MediaRepository>();
             services.AddScoped<IBlogPostRepository, BlogPostRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IPictureService, PictureService>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
             services.AddDbContext<DataContext>(options =>

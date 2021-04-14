@@ -3,7 +3,12 @@
 html, body { height: 100%; color: white}
 body {
     margin: 0;
-    background-image: linear-gradient(90deg, black, rgb(77, 100, 116))
+    background-image: linear-gradient(90deg, black, rgb(77, 100, 116, .5))
+}
+
+html {
+    background-image: url("https://res.cloudinary.com/automatrio/image/upload/v1617888867/headquarters/PaintedMetal002_1K_Roughness_ic14lb.jpg");
+    background-repeat: repeat;
 }
 
 .navbar:first-child {
@@ -26,4 +31,19 @@ body {
 .dark-backdrop {
     background: #000;
     opacity: 0.85 !important;
+}
+
+.mat-drawer-backdrop.mat-drawer-shown
+{
+    background-color:rgb(0,0,0,.6);
+}
+
+.call-sidenav-button
+{
+    color: white;
+}
+
+.mat-tooltip
+{
+    font-size: 10pt !important;
 }

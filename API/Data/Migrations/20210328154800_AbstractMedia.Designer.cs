@@ -119,7 +119,7 @@ namespace API.Data.Migrations
                     b.Property<string>("Project")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("picture");
+                    b.HasDiscriminator().HasValue("Picture");
                 });
 
             modelBuilder.Entity("API.Entities.Media", b =>

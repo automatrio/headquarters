@@ -66,7 +66,7 @@ export class NavpieComponent implements AfterViewInit{
 
   expandIcon(event: Event)
   {
-    const element = event.target as HTMLElement;
+    const element = event.currentTarget as HTMLElement;
 
     if(this.isExpanded != element.id)
     {  
@@ -102,7 +102,7 @@ export class NavpieComponent implements AfterViewInit{
 
   resetIcon(event: Event)
   {
-    const element = event.target as HTMLElement;
+    const element = event.currentTarget as HTMLElement;
 
     if(this.isExpanded == element.id)
     {

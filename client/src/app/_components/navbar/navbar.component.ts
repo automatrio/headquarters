@@ -56,7 +56,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   increaseAlpha(event: Event)
   {
-    const currentElement = event.target as HTMLElement;
+    const currentElement = event.currentTarget as HTMLElement;
     this.originalColor = getComputedStyle(currentElement).backgroundColor;
 
     this.newColor = this.originalColor.slice(0, -5) + "1.0)";
@@ -75,7 +75,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   resetAlpha(event: Event)
   {
-    const currentElement = event.target as HTMLElement;
+    const currentElement = event.currentTarget as HTMLElement;
 
     currentElement.animate([
       {
@@ -103,7 +103,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   slideOutMenu(event: Event)
   {
-    this.destination = (event.target as HTMLElement).id;
+    this.destination = (event.currentTarget as HTMLElement).id;
     this.switchMenusEvent.emit(this.destination);
   }
 

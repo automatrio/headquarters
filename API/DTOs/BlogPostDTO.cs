@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using API.Entities;
 
@@ -9,11 +10,8 @@ namespace API.DTOs
         public string Type { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-
-        #nullable enable
-        public List<Media>? Media { get; set; }
-        #nullable disable
-
-        // public IReadonlyList<Comment> Comments { get; set; }
+        public DateTime CreateDate { get; set; }
+        public List<Media> Media { get; set; } = new List<Media>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

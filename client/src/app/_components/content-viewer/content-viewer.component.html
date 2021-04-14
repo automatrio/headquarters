@@ -1,65 +1,61 @@
-<div class="container">
+<mat-sidenav-container autosize>
 
-    <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav mode="side" opened>
-            
-        <img
-            *ngIf="!isHomepage"
-            class="logo"
-            src="https://lh3.googleusercontent.com/pw/ACtC-3dB5YVQABd2KZzq5xJ8rI6OKSaX5to-SjGH3nIbXTl61f73oHv3bbP8Pk84NT5vAWM92dlbIKvBPtgGCb9nOgt8MSRvmN1t2JXGd0zj5T2DceVKtEbJNNIqH-Ru_Fc-sLzhIDC_pDO5GgUZayViugQ=s120-no?authuser=0"
-            (click)="displayNavpie()"
-            >
+    <mat-sidenav mode="push" opened>
 
         <ul class="button-cascade">
-            <li *ngFor="let blogPost of blogPosts">
-                <button
-                    class="content-button"
-                    (click)="changeIndex($event)"
-                    id="{{blogPost.id}}">
-                        {{blogPost.title}}
-                </button>
+            <li>
+                <img
+                    *ngIf="!isHomepage"
+                    class="logo"
+                    src="https://lh3.googleusercontent.com/pw/ACtC-3dB5YVQABd2KZzq5xJ8rI6OKSaX5to-SjGH3nIbXTl61f73oHv3bbP8Pk84NT5vAWM92dlbIKvBPtgGCb9nOgt8MSRvmN1t2JXGd0zj5T2DceVKtEbJNNIqH-Ru_Fc-sLzhIDC_pDO5GgUZayViugQ=s120-no?authuser=0"
+                    (click)="displayNavpie()">
             </li>
+            
+            <app-button-cascade [blogPosts]="blogPosts" (indexChangeEvent)="onIndexChange($event)" ></app-button-cascade>
+
         </ul>
 
-        </mat-sidenav>
+    </mat-sidenav>
+    
+    <mat-sidenav-content>
+    
+        <button class="call-sidenav-button" mat-button (click)="callSidenav()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
         
-        <mat-sidenav-content>
-        
-            <cdk-virtual-scroll-viewport itemSize="50" class="text-viewport">
-                <div>
-                    {{blogPosts[index]?.content}}
-                    
-                </div>
-            </cdk-virtual-scroll-viewport>
 
-            <div class="comment-section" >
+        <cdk-virtual-scroll-viewport itemSize="50" class="text-viewport" [innerHtml]="blogPosts[index]?.content">
+
             
 
-                <cdk-virtual-scroll-viewport itemSize="20" class="comments-viewport" #commentsViewport >
+        </cdk-virtual-scroll-viewport>
 
-                    <app-comment-tree 
-                        #commentTree
-                        [blogPost]="blogPosts[index]"
-                        *ngIf="isParentReady" 
-                        (hasComments)="checkForComments($event)"
-                        >
-                    </app-comment-tree>
-
-                </cdk-virtual-scroll-viewport>
-
-                <button 
-                    mat-raised-button class="comment-button"
-                    (click)="leaveComment()"
-                    >
-                    Leave a comment
-                </button>
-
-                <ng-container #container class="container"></ng-container>
-
-            </div>
+        <div class="comment-section" >
         
-        </mat-sidenav-content>
-      
-    </mat-sidenav-container>
 
-</div>
+            <cdk-virtual-scroll-viewport itemSize="20" class="comments-viewport" #commentsViewport >
+
+                <app-comment-tree 
+                    #commentTree
+                    [blogPost]="blogPosts[index]"
+                    *ngIf="isParentReady" 
+                    (hasComments)="checkForComments($event)"
+                    >
+                </app-comment-tree>
+
+            </cdk-virtual-scroll-viewport>
+
+            <button 
+                mat-raised-button class="comment-button"
+                (click)="leaveComment()"
+                >
+                Leave a comment
+            </button>
+
+            <ng-container #container class="container"></ng-container>
+
+        </div>
+    
+    </mat-sidenav-content>
+    
+</mat-sidenav-container>

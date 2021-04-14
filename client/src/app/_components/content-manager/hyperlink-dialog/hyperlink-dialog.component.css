@@ -1,0 +1,31 @@
+.hyperlink-form
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.mat-form-field
+{
+    width: 100%;
+    font-size: 12pt;
+}
+
+.buttons-row
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+button
+{
+    margin: 25px;
+    transition: 150ms;
+}
+
+button:hover
+{
+    transform: scale(1.25);
+}
