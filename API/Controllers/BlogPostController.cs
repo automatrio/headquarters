@@ -30,7 +30,7 @@ namespace API.Controllers
             return newBlogPost;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetBlogPostById")]
         public async Task<ActionResult<BlogPostDTO>> GetBlogPostById(int id)
         {
             var blogPost = await _blogPostRepository.GetBlogPostByIdAsync(id);

@@ -26,6 +26,9 @@ import { InfoDisplayComponent } from './_components/info-display/info-display.co
 import { ButtonCascadeComponent } from './_components/button-cascade/button-cascade.component';
 import { ActionDialogComponent } from './_components/content-manager/action-dialog/action-dialog.component';
 import { HyperlinkDialogComponent } from './_components/content-manager/hyperlink-dialog/hyperlink-dialog.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { PictureDialogComponent } from './_components/content-manager/picture-dialog/picture-dialog.component';
 
 
 @NgModule({
@@ -45,7 +48,8 @@ import { HyperlinkDialogComponent } from './_components/content-manager/hyperlin
     InfoDisplayComponent,
     ButtonCascadeComponent,
     ActionDialogComponent,
-    HyperlinkDialogComponent
+    HyperlinkDialogComponent,
+    PictureDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,12 +59,14 @@ import { HyperlinkDialogComponent } from './_components/content-manager/hyperlin
     AngularCdkModule,
     AngularCoreModule,
     HttpClientModule,
+    NgxSpinnerModule,
     LoginDialogModule.forRoot(),
     ToastModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

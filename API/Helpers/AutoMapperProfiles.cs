@@ -9,10 +9,9 @@ namespace API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<Admin, PublicAdminDTO>();
-            CreateMap<Picture, PictureDTO>();
-            CreateMap<Model3D, Model3DDTO>();
-            CreateMap<Music, MusicDTO>();
-            CreateMap<Media, MediaDTO>();
+            CreateMap<Picture, PictureDTO>().ReverseMap();
+            CreateMap<Model3D, Model3DDTO>().ReverseMap();
+            CreateMap<Music, MusicDTO>().ReverseMap();
             CreateMap<BlogPost, BlogPostDTO>();
             CreateMap<Comment, CommentDTO>()
                 .ForMember(

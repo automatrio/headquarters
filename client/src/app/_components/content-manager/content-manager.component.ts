@@ -6,10 +6,14 @@ import { ActionOptions } from 'src/app/_models/actionOptions';
 import { BlogPost } from 'src/app/_models/blogPost';
 import { BlogPostEdit } from 'src/app/_models/blogPostEdit';
 import { HyperlinkModel } from 'src/app/_models/hyperlinkModel';
+import { Media } from 'src/app/_models/media';
+import { Picture } from 'src/app/_models/picture';
 import { ActionOverlayService } from 'src/app/_services/action-overlay.service';
 import { ContentService } from 'src/app/_services/content.service';
+import { PictureService } from 'src/app/_services/picture.service';
 import { defaultActionDialogConfig } from './action-dialog/action-dialog-config';
 import { HyperlinkDialogComponent } from './hyperlink-dialog/hyperlink-dialog.component';
+import { PictureDialogComponent } from './picture-dialog/picture-dialog.component';
 
 @Component({
   selector: 'app-content-manager',
@@ -20,6 +24,7 @@ export class ContentManagerComponent implements OnInit {
 
   navigation: Navigation;
   postModel: BlogPost;
+  mediaToUpload: Media[] = [];
   actionChosen: 'create' | 'edit' | 'delete';
   currentStep: number = 0;
 
@@ -41,6 +46,7 @@ export class ContentManagerComponent implements OnInit {
   constructor(
     private actionOverlayService: ActionOverlayService,
     private contentService: ContentService,
+    private pictureService: PictureService,
     private matDialog: MatDialog,
     private router: Router)
   {
@@ -169,7 +175,7 @@ export class ContentManagerComponent implements OnInit {
     return this.matDialog.open(HyperlinkDialogComponent, {
       width: '400px',
       hasBackdrop: true,
-      panelClass: 'hyperlink-dialog-panel',
+      panelClass: 'dialog-panel',
       backdropClass: 'dark-backdrop',
       data: selection
     });
@@ -195,6 +201,16 @@ export class ContentManagerComponent implements OnInit {
 
   }
 
+  private openPictureUploadDialog() : MatDialogRef<PictureDialogComponent>
+  {
+    return this.matDialog.open(PictureDialogComponent, {
+      width: '400px',
+      hasBackdrop: true,
+      panelClass: 'dialog-panel',
+      backdropClass: 'dark-backdrop'
+    });
+  }
+
   media_insertAudiotrack()
   {
 
@@ -207,6 +223,22 @@ export class ContentManagerComponent implements OnInit {
 
   media_insertPicture()
   {
+    const dialogRef = this.openPictureUploadDialog();
+
+    dialogRef.afterClosed().subscribe(
+      (picture: FormData) => {
+        this.pictureService.uploadPicture(this.postModel.id, picture).subscribe(
+          // upload photo logic
+          response => console.log(response)
+        );
+    });
+
+    const textArea = (this.textRef.nativeElement as HTMLTextAreaElement);
+
+    textArea.value =
+      textArea.value.slice(0, textArea.selectionStart)
+      + '{{blogPost.media[0].url}}'
+      + textArea.value.slice(textArea.selectionStart, textArea.value.length);
 
   }
 }

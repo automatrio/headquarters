@@ -3,7 +3,7 @@ using API.Helpers;
 using API.Repository;
 using API.Repository.BlogPostRepository;
 using API.Repository.CommentRepository;
-using API.Repository.MediaRepository;
+using API.Repository.PictureRepository;
 using API.Services;
 using API.Services.PictureService;
 using AutoMapper;
@@ -21,10 +21,10 @@ namespace API.Extensions
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAdminRepository, AdminRepository>();
-            services.AddScoped<IMediaRepository, MediaRepository>();
             services.AddScoped<IBlogPostRepository, BlogPostRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IPictureService, PictureService>();
+            services.AddScoped<IPictureRepository, PictureRepository>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
             services.AddDbContext<DataContext>(options =>

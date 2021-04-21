@@ -1,0 +1,28 @@
+<div class="picture-dialog-container">
+
+    <form class="hyperlink-form" #ngForm (ngSubmit)="onSubmit()">
+
+        <input class="hyperlink-input"
+            type="file"
+            name="textShown"
+            [(ngModel)]="pictureModel.file">
+        
+        <div class="buttons-row">
+
+            <button
+                mat-raised-button
+                type="submit">
+                <mat-icon>check</mat-icon>
+            </button>
+
+            <button
+                mat-raised-button
+                color="warn"
+                type="button"
+                (click)="onCancel()">
+                <mat-icon>close</mat-icon>
+            </button>
+    
+            </div>
+    </form>
+</div>

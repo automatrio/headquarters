@@ -1,7 +1,7 @@
 export enum ContentType
 {
     MusicBlog = "MusicBlog",
-    DevLog = "DevLog",
+    Devlog = "Devlog",
     NewsBlog = "NewsBlog",
     PictureBlog = "PictureBlog",
     Model3DBlog = "Model3DBlog"
