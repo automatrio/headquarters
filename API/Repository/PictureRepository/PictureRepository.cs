@@ -1,8 +1,10 @@
+using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repository.PictureRepository
 {
@@ -30,9 +32,15 @@ namespace API.Repository.PictureRepository
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task DeletePictureFromBlogPostAsync(string publicId)
+        public async Task DeletePictureAsync(string publicId)
         {
-            throw new System.NotImplementedException();
+            var photo = await _context.Medias
+                .Where(media => media is Picture)
+                .SingleOrDefaultAsync(picture => (picture as Picture).PublicId == publicId);
+                
+            _context.Medias.Remove(photo);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

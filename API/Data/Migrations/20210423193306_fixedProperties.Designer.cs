@@ -4,14 +4,16 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210423193306_fixedProperties")]
+    partial class fixedProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,7 +113,10 @@ namespace API.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TypeDiscriminator")
+                    b.Property<string>("PublicID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
@@ -123,7 +128,7 @@ namespace API.Data.Migrations
 
                     b.ToTable("Medias");
 
-                    b.HasDiscriminator<int>("TypeDiscriminator");
+                    b.HasDiscriminator<int>("Type");
                 });
 
             modelBuilder.Entity("API.Entities.Model3D", b =>
@@ -150,7 +155,7 @@ namespace API.Data.Migrations
                 {
                     b.HasBaseType("API.Entities.Media");
 
-                    b.Property<string>("PublicId")
+                    b.Property<string>("Project")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue(1);

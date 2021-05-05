@@ -65,10 +65,11 @@ export class ContentViewerComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   ngAfterViewInit(): void {
-    this.fetchContent(this.contentType);
+    
   }
 
   ngOnInit(): void {
+    this.fetchContent(this.contentType);
     this.setHomepageContentViewer();
   }
 
@@ -80,7 +81,7 @@ export class ContentViewerComponent implements OnInit, AfterViewInit, AfterViewC
         this.blogPosts = response;
         this.isParentReady = true;
         this.isReady = true;
-        contentFetched.unsubscribe();
+        // contentFetched?.unsubscribe();
       });
   }
 

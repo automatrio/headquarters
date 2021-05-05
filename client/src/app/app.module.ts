@@ -29,6 +29,8 @@ import { HyperlinkDialogComponent } from './_components/content-manager/hyperlin
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { PictureDialogComponent } from './_components/content-manager/picture-dialog/picture-dialog.component';
+import { DndDirective } from './_directives/dnd.directive';
+import { AudioPlayerComponent } from './_components/audio-player/audio-player.component';
 
 
 @NgModule({
@@ -49,7 +51,9 @@ import { PictureDialogComponent } from './_components/content-manager/picture-di
     ButtonCascadeComponent,
     ActionDialogComponent,
     HyperlinkDialogComponent,
-    PictureDialogComponent
+    PictureDialogComponent,
+    DndDirective,
+    AudioPlayerComponent
   ],
   imports: [
     BrowserModule,

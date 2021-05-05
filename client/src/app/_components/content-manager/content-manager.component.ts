@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { Navigation, Router } from '@angular/router';
+import { Navigation, NavigationBehaviorOptions, Router } from '@angular/router';
 import { ActionOptions } from 'src/app/_models/actionOptions';
 import { BlogPost } from 'src/app/_models/blogPost';
 import { BlogPostEdit } from 'src/app/_models/blogPostEdit';
@@ -31,13 +31,13 @@ export class ContentManagerComponent implements OnInit {
   @ViewChild('textRef', {read: ElementRef})
     textRef: ElementRef;
 
-  @ViewChild('managerForm')
+  @ViewChild('managerForm', {static: true})
     managerForm: NgForm;
 
   @HostListener('window:beforeunload', ['$event'])
     unloadNotification($event: Event)
     {
-      if(this.managerForm.dirty)
+      if(this.managerForm?.dirty)
       {
         $event.returnValue = true;
       }
@@ -57,10 +57,17 @@ export class ContentManagerComponent implements OnInit {
     const actionOverlayRef = this.actionOverlayService.callActionOverlay(defaultActionDialogConfig, this.currentStep, this.actionChosen);
     const subscription = actionOverlayRef.component.finishedActionEvent.subscribe(
       (response: ActionOptions) => {
-        this.postModel = response.element;
-        this.actionChosen = response.action;
+        if(response.action != 'delete')
+        {
+          this.postModel = response.element;
+          this.actionChosen = response.action;
+          actionOverlayRef.close();
+          subscription?.unsubscribe();
+          return;
+        }
+        console.log("rerouting...")
+        this.router.navigateByUrl(this.navigation.initialUrl, {skipLocationChange: false} as NavigationBehaviorOptions);
         actionOverlayRef.close();
-        subscription.unsubscribe();
     });
   }
 
@@ -94,16 +101,27 @@ export class ContentManagerComponent implements OnInit {
   manage_publish()
   {
     switch(this.actionChosen) {
-      case 'create':
+      case 'create': 
       {
-        console.log("creating new blog post");
-        this.contentService.postNewContent(this.postModel).subscribe(
-          response => console.log(response)
-        );
+        console.log("publishing...");
+        const edit = {
+          id: this.postModel.id,
+          title: this.postModel.title,
+          content: this.postModel.content,
+          media: this.postModel.media
+        } as BlogPostEdit;
+        console.log("edit provided: ", edit);
+
+        this.contentService.updateBlogPost(edit).subscribe(
+          response => { 
+            console.log("response:", response);
+        });
+
         break;
       }
       case 'edit':
       {
+        console.log("publishing...");
         const edit = {
           id: this.postModel.id,
           title: this.postModel.title,
@@ -111,8 +129,9 @@ export class ContentManagerComponent implements OnInit {
           media: this.postModel.media
         } as BlogPostEdit;
         this.contentService.updateBlogPost(edit).subscribe(
-          response => console.log(response)
-        );
+          response => { 
+          console.log("response:", response);
+        });
         break;
       }
       default:
@@ -126,9 +145,35 @@ export class ContentManagerComponent implements OnInit {
 
   }
 
+  private deleteAllMedia()
+  {
+    this.postModel.media.forEach(media => {
+      if(media instanceof Picture)
+      {
+        this.pictureService.deletePicture(media.publicId).subscribe(
+          () => {
+            console.log("Deleting media item...")
+          });
+      }
+    });
+
+    this.contentService.deleteBlogPost(this.postModel.id).subscribe(
+      () => {
+        console.log("Deleting blogpost...")
+      });
+  }
+
   manage_cancel()
   {
-
+    if(this.actionChosen == 'create')
+    {
+      this.deleteAllMedia();
+      return;
+    }
+    else if(this.actionChosen == 'edit')
+    {
+      return;
+    }
   }
 
   private format(style: string)
@@ -139,10 +184,14 @@ export class ContentManagerComponent implements OnInit {
     const selectionEnd = textArea.selectionEnd;
     const selectedText = textArea.value.substring(selectionStart, selectionEnd);
 
-    textArea.value =
-      textArea.value.slice(0, selectionStart)
-      + '<' + style + '>' + selectedText + '</' + style + '>'
-      + textArea.value.slice(selectionEnd, textArea.value.length);
+    textArea.value = this.insertString(textArea, '<' + style + '>' + selectedText + '</' + style + '>');
+  }
+
+  private insertString(textArea: HTMLTextAreaElement, newText: string) : string
+  {
+    return textArea.value.slice(0, textArea.selectionStart)
+            + newText
+            + textArea.value.slice(textArea.selectionEnd, textArea.value.length);
   }
 
   format_bold()
@@ -189,16 +238,11 @@ export class ContentManagerComponent implements OnInit {
     const selectionEnd = textArea.selectionEnd;
     const selectedText = textArea.value.substring(selectionStart, selectionEnd);
 
-    let dialogRef = this.openHyperlinkDialog(selectedText);
+    let dialogRef = this.openHyperlinkDialog(selectedText)
 
     dialogRef.afterClosed().subscribe((response: HyperlinkModel) => {
-      textArea.value =
-      textArea.value.slice(0, selectionStart)
-      + '<a href="' + response.url + '">' + response.textShown + '</a>'
-      + textArea.value.slice(selectionEnd, textArea.value.length);
+      textArea.value = this.insertString(textArea, '<a href="' + response.url + '">' + response.textShown + '</a>')
     });
-
-
   }
 
   private openPictureUploadDialog() : MatDialogRef<PictureDialogComponent>
@@ -207,7 +251,8 @@ export class ContentManagerComponent implements OnInit {
       width: '400px',
       hasBackdrop: true,
       panelClass: 'dialog-panel',
-      backdropClass: 'dark-backdrop'
+      backdropClass: 'dark-backdrop',
+      data: this.postModel.id
     });
   }
 
@@ -225,21 +270,19 @@ export class ContentManagerComponent implements OnInit {
   {
     const dialogRef = this.openPictureUploadDialog();
 
-    dialogRef.afterClosed().subscribe(
-      (picture: FormData) => {
-        this.pictureService.uploadPicture(this.postModel.id, picture).subscribe(
-          // upload photo logic
-          response => console.log(response)
-        );
-    });
+    const picturesObtained = dialogRef.afterClosed().subscribe(
+      (response: Picture[]) => {
+        this.postModel.media = response;
+        console.log("Postmodel media:", this.postModel.media);
+        picturesObtained?.unsubscribe();
+      }
+    );
 
     const textArea = (this.textRef.nativeElement as HTMLTextAreaElement);
 
-    textArea.value =
-      textArea.value.slice(0, textArea.selectionStart)
-      + '{{blogPost.media[0].url}}'
-      + textArea.value.slice(textArea.selectionStart, textArea.value.length);
-
+    for (let i = 0; i < this.postModel.media.length; i++) {
+      textArea.value = this.insertString(textArea, '<img src="' + this.postModel.media[i].url + '">');
+    }
   }
 }
 

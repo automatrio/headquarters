@@ -1,28 +1,23 @@
 <div class="picture-dialog-container">
 
-    <form class="hyperlink-form" #ngForm (ngSubmit)="onSubmit()">
-
-        <input class="hyperlink-input"
+    <div
+        appDnd
+        class="dropzone"
+        (onFileDropped)="loadDroppedFiles($event)">
+        <input
+            class="dropzone-input"
             type="file"
-            name="textShown"
-            [(ngModel)]="pictureModel.file">
-        
-        <div class="buttons-row">
+            #fileDropRef
+            id="fileDropRef"
+            multiple
+            (change)="fileBrowseHandler($event)"/>
+        <mat-icon>file_upload</mat-icon>
+        <h3>Drag and drop a picture here</h3>
+        <h5>or</h5>
+        <button 
+            mat-raised-button
+            color="warn"
+            class="browse-button"> Browse for file </button>
+    </div>
 
-            <button
-                mat-raised-button
-                type="submit">
-                <mat-icon>check</mat-icon>
-            </button>
-
-            <button
-                mat-raised-button
-                color="warn"
-                type="button"
-                (click)="onCancel()">
-                <mat-icon>close</mat-icon>
-            </button>
-    
-            </div>
-    </form>
 </div>

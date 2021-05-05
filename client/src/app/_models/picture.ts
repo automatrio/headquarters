@@ -1,9 +1,6 @@
 import { Media } from "./media";
 
-export class Picture implements Media
+export class Picture extends Media
 {
-    id: number;
-    url: string;
-    description: string;
-    file: File;
+    publicId: string;
 }

@@ -21,7 +21,7 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPost("{blogPostId}")]
-        public async Task<ActionResult<PictureDTO>> UploadPicture(IFormFile file, int blogPostId)
+        public async Task<ActionResult> UploadPicture(IFormFile file, int blogPostId)
         {
             var result = await _pictureService.AddPictureAsync(file);
 
@@ -30,6 +30,7 @@ namespace API.Controllers
             var newPicture = new PictureDTO()
             {
                 BlogPostId = blogPostId,
+                TypeDiscriminator = 1,
                 PublicId = result.PublicId,
                 Url = result.SecureUrl.AbsoluteUri,
                 Description = file.FileName
@@ -47,6 +48,29 @@ namespace API.Controllers
             }
 
             return BadRequest(result.Error.Message);
+        }
+
+    
+        [Authorize]
+        [HttpDelete("{publicId}")]
+        public async Task<ActionResult> DeletePicture(string publicId)
+        {
+            var deletionResult = await _pictureService.DeletePictureAsync(publicId);
+            
+            if(deletionResult is null)
+            {
+                return NotFound("Invalid publicID. Coudn't delete picture.");
+            }
+
+            if(deletionResult.Error is not null)
+            {
+                return BadRequest(deletionResult.Error);
+            }
+
+            // delete from database
+            await _pictureRepository.DeletePictureAsync(publicId);
+
+            return NoContent();
         }
     }
 }

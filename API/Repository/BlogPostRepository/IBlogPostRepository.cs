@@ -9,7 +9,7 @@ namespace API.Repository.BlogPostRepository
     {
         public Task<List<BlogPostDTO>> GetBlogPostsByTypeAsync(string type);
         public Task<BlogPost> GetBlogPostByIdAsync(int id);
-        public Task<BlogPostDTO> CreateBlogPost(BlogPostDTO blogPost);
+        public Task<int> CreateBlogPost(BlogPostDTO blogPost);
         public Task DeleteBlogPost(int blogPostId);
         public void Update(BlogPost blogPost);
     }

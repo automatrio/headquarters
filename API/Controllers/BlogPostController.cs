@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Data;
 using API.DTOs;
 using API.Repository.BlogPostRepository;
 using AutoMapper;
@@ -23,11 +22,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<BlogPostDTO>> CreateBlogPost(BlogPostDTO blogPostDTO)
         {
-            var newBlogPost = await _blogPostRepository.CreateBlogPost(blogPostDTO);
+            int newBlogPostId = await _blogPostRepository.CreateBlogPost(blogPostDTO);
 
-            await _blogPostRepository.SaveAllChangesAsync();
+            var newBlogPost = await _blogPostRepository.GetBlogPostByIdAsync(newBlogPostId);
 
-            return newBlogPost;
+            return _mapper.Map<BlogPostDTO>(newBlogPost);
         }
 
         [HttpGet("{id}", Name = "GetBlogPostById")]

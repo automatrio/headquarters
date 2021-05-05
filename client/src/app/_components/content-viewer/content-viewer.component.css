@@ -8,6 +8,7 @@ cdk-virtual-scroll-viewport {
 .text-viewport {
     padding: 15px;
     height: 600px;
+    white-space: pre-wrap;
 }
 
 .comments-viewport {

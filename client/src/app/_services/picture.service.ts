@@ -17,6 +17,6 @@ export class PictureService {
 
   deletePicture(publicId: string)
   {
-    //
+    return this.httpClient.delete(environment.APIUrl + 'picture/' + publicId);
   }
 }

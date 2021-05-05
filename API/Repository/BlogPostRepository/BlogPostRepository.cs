@@ -21,7 +21,7 @@ namespace API.Repository.BlogPostRepository
             _context = context;
         }
 
-        public async Task<BlogPostDTO> CreateBlogPost(BlogPostDTO blogPostDTO)
+        public async Task<int> CreateBlogPost(BlogPostDTO blogPostDTO)
         {
             var blogPost = new BlogPost()
             {
@@ -32,8 +32,13 @@ namespace API.Repository.BlogPostRepository
                 Media = blogPostDTO.Media?.ToList()
             };
             await _context.AddAsync(blogPost);
+
+            if(await SaveAllChangesAsync())
+            {
+                return blogPost.Id;
+            }
             
-            return _mapper.Map<BlogPostDTO>(blogPost);
+            return 0;
         }
 
         public async Task<List<BlogPostDTO>> GetBlogPostsByTypeAsync(string type)

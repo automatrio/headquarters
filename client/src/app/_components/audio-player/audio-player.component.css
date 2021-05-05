@@ -1,0 +1,49 @@
+.mat-list-item {
+    display: flex;
+    justify-content: space-between;
+    transition: 150ms;
+}
+
+.mat-list-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.album-cover {
+    width: 100%;
+}
+
+.collapse-arrow {
+    transition: 150ms;
+}
+
+.collapse-arrow:hover {
+    transform: scale(1.2);
+}
+
+button {
+    background: none;
+    border:none;
+    color: white;
+    transition: 150ms;
+}
+
+button:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.mat-slider {
+    width: 100%;
+}
+table {
+    width: 100%;
+}
+
+.slider-row {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}

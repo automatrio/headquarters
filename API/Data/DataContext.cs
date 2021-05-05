@@ -18,7 +18,7 @@ namespace API.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Media>()
-                .HasDiscriminator(media => media.Type)
+                .HasDiscriminator(media => media.TypeDiscriminator)
                 .HasValue<Music>(MediaType.Music)
                 .HasValue<Model3D>(MediaType.Model3D)
                 .HasValue<Picture>(MediaType.Picture);

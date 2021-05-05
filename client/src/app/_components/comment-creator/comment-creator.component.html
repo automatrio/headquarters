@@ -1,7 +1,8 @@
 <mat-card #cardRef [@scale]="animationState">
 
-    <form 
-    (ngSubmit)="submitNewComment()"
+    <form
+    [formGroup]='commentForm'
+    (ngSubmit)='submitNewComment()'
     class="instruction-form">
 
         <mat-card-title> 
@@ -10,11 +11,10 @@
                 <mat-label>Who are you?</mat-label>
                 <input 
                     matInput
-                    name="author"           
-                    [(ngModel)]="newComment.author"
+                    [class.is-invalid]='commentForm.get("author").errors && commentForm.get("author").touched'     
+                    formControlName='author'
                 >
             </mat-form-field>
-            
         </mat-card-title>
 
         <mat-card-content> 
@@ -23,8 +23,8 @@
                 <mat-label>Leave a comment</mat-label>
                 <textarea
                     matInput
-                    name="content"
-                    [(ngModel)]="newComment.content"
+                    [class.is-invalid]='commentForm.get("content").errors && commentForm.get("content").touched' 
+                    formControlName='content'
                     placeholder="Say something!"></textarea>
             </mat-form-field>
 

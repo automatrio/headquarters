@@ -83,7 +83,7 @@ export class ActionDialogComponent implements OnInit {
     const subscription = this.contentService.fetchBlogPosts(contentType.toString()).subscribe(
       (result) => {
         this.blogPosts = result;
-        subscription.unsubscribe();
+        subscription?.unsubscribe();
     });
   }
 
@@ -92,7 +92,6 @@ export class ActionDialogComponent implements OnInit {
     switch (this.actionOptions.action) {
       case "create":
       {
-        this.actionOptions.element = this.createEmptyBlogPost(this.actionOptions.type);
         this.finishedActionEvent.emit(this.actionOptions);
         break;
       }
@@ -104,10 +103,11 @@ export class ActionDialogComponent implements OnInit {
       case "delete":
       {
         this.contentService.deleteBlogPost(this.actionOptions.element.id).subscribe();
-        this.canceledActionEvent.emit(true);
+        this.finishedActionEvent.emit(this.actionOptions);
         break;
       }
       default:
+        this.canceledActionEvent.emit(true);
         break;
     }
 
@@ -150,7 +150,12 @@ export class ActionDialogComponent implements OnInit {
 
     if(this.actionOptions.action == "create")
     {
-      this.finish();
+      this.contentService.postNewContent(this.createEmptyBlogPost(this.actionOptions.type)).subscribe(
+        (response: BlogPost) => {
+          this.actionOptions.element = response
+          this.finish();
+        }
+      );
       return;
     }
     this.actionStepSource.next(2);
