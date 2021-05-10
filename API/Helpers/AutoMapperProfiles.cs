@@ -13,6 +13,7 @@ namespace API.Helpers
             CreateMap<Model3D, Model3DDTO>().ReverseMap();
             CreateMap<Music, MusicDTO>().ReverseMap();
             CreateMap<BlogPost, BlogPostDTO>().ReverseMap();
+            CreateMap<Album, AlbumDTO>().ReverseMap();
             CreateMap<Comment, CommentDTO>()
                 .ForMember(
                     destinationMember: commentDTO => commentDTO.ParentBlogPostId,

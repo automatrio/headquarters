@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Navigation, NavigationBehaviorOptions, Router } from '@angular/router';
 import { ActionOptions } from 'src/app/_models/actionOptions';
+import { Album } from 'src/app/_models/album';
 import { BlogPost } from 'src/app/_models/blogPost';
 import { BlogPostEdit } from 'src/app/_models/blogPostEdit';
 import { HyperlinkModel } from 'src/app/_models/hyperlinkModel';
@@ -13,6 +14,7 @@ import { ContentService } from 'src/app/_services/content.service';
 import { PictureService } from 'src/app/_services/picture.service';
 import { defaultActionDialogConfig } from './action-dialog/action-dialog-config';
 import { HyperlinkDialogComponent } from './hyperlink-dialog/hyperlink-dialog.component';
+import { MusicDialogComponent } from './music-dialog/music-dialog.component';
 import { PictureDialogComponent } from './picture-dialog/picture-dialog.component';
 
 @Component({
@@ -256,9 +258,27 @@ export class ContentManagerComponent implements OnInit {
     });
   }
 
+  private openMusicUploadDialog()
+  {
+    return this.matDialog.open(MusicDialogComponent, {
+      width: '400px',
+      hasBackdrop: true,
+      panelClass: 'dialog-panel',
+      backdropClass: 'dark-backdrop',
+      data: {}
+    }) 
+  }
+
   media_insertAudiotrack()
   {
+    const dialogRef = this.openMusicUploadDialog();
 
+    const musicObtained = dialogRef.afterClosed().subscribe(
+      (response: Album) => {
+        this.postModel.media = [...this.postModel.media, ...response.music];
+        musicObtained.unsubscribe();
+      }
+    );
   }
 
   media_insertModel3D()
@@ -272,7 +292,7 @@ export class ContentManagerComponent implements OnInit {
 
     const picturesObtained = dialogRef.afterClosed().subscribe(
       (response: Picture[]) => {
-        this.postModel.media = response;
+        this.postModel.media = [...this.postModel.media, ...response];
         console.log("Postmodel media:", this.postModel.media);
         picturesObtained?.unsubscribe();
       }

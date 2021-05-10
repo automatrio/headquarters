@@ -14,6 +14,7 @@ namespace API.Data
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Media> Medias { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Album> Albums { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
