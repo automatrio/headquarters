@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.Middleware;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ namespace API
             }
             catch (Exception ex)
             {
-                var logger = services.GetRequiredService<ILogger>();
+                var logger = services.GetRequiredService<ILogger<ExceptionMiddleware>>();
                 logger.LogError(ex, "Something went awry, alas!");
             }
 
