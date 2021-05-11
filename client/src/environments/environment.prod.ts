@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  APIUrl: '/api/'
+  APIUrl: 'https://automatrio-headquarters.herokuapp.com/api/'
 };

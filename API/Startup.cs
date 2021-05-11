@@ -44,7 +44,7 @@ namespace API
             app.UseRouting();
 
 		    app.UseCors(options =>
-                options.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200/").AllowCredentials());
+                options.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://automatrio-headquarters.herokuapp.com/").AllowCredentials());
 
             app.UseAuthentication();
 
