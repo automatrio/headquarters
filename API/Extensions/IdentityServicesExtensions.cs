@@ -24,11 +24,11 @@ namespace API.Extensions
                         ValidateAudience = false
                     };
                 })
-                .AddGoogle(options =>
-                {
-                    options.ClientId = config.GetSection("OAuthCredentials")["ClientId"];
-                    options.ClientSecret = config.GetSection("OAuthCredentials")["ClientSecret"];
-                });
+                // .AddGoogle(options =>
+                // {
+                //     options.ClientId = config.GetSection("OAuthCredentials")["ClientId"];
+                //     options.ClientSecret = config.GetSection("OAuthCredentials")["ClientSecret"];
+                // });
 
             return services;
         }
