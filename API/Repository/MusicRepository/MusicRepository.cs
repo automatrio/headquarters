@@ -19,10 +19,23 @@ namespace API.Repository.MusicRepository
             _context = context;
         }
         
-        public async Task CreateAlbumAsync(AlbumDTO albumDTO)
+        // returns true if a new album was created, false if an existing one was updated
+        // requires a call to SaveAllChangesAsync() separately
+        public async Task<bool> UpsertAlbumAsync(AlbumDTO albumDTO)
         {
-            var newAlbum = _mapper.Map<Album>(albumDTO);
-            await _context.Albums.AddAsync(newAlbum);
+            var existingAlbum = await _context.Albums.FirstOrDefaultAsync(album => album.Title == albumDTO.Title);
+            if(existingAlbum is not null)
+            {
+                var newAlbum = _mapper.Map<Album>(albumDTO);
+                await _context.Albums.AddAsync(newAlbum);
+                return true;
+            }
+            else
+            {
+                _mapper.Map(albumDTO, existingAlbum);
+                _context.Albums.Update(existingAlbum);
+                return false;
+            }
         }
 
         public async Task DeleteAlbumAsync(int albumId)
@@ -58,6 +71,18 @@ namespace API.Repository.MusicRepository
 
             album.Music.Add(music);
         }
+
+        // public async Task UpdateMusicEntityUrlAsync(int albumId, string url)
+        // {
+        //     var album = await _context.Albums.FindAsync(albumId);
+
+        //     var newMusic = new Music()
+        //     {
+        //         PublicId = 
+        //     };
+
+        //     album.Music.Add();
+        // }
 
     }
 }

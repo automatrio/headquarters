@@ -31,7 +31,6 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { PictureDialogComponent } from './_components/content-manager/picture-dialog/picture-dialog.component';
 import { DndDirective } from './_directives/dnd.directive';
 import { AudioPlayerComponent } from './_components/audio-player/audio-player.component';
-import { MusicDialogComponent } from './_components/content-manager/music-dialog/music-dialog.component';
 
 
 @NgModule({
@@ -54,8 +53,7 @@ import { MusicDialogComponent } from './_components/content-manager/music-dialog
     HyperlinkDialogComponent,
     PictureDialogComponent,
     DndDirective,
-    AudioPlayerComponent,
-    MusicDialogComponent
+    AudioPlayerComponent
   ],
   imports: [
     BrowserModule,

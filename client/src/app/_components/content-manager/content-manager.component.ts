@@ -14,7 +14,6 @@ import { ContentService } from 'src/app/_services/content.service';
 import { PictureService } from 'src/app/_services/picture.service';
 import { defaultActionDialogConfig } from './action-dialog/action-dialog-config';
 import { HyperlinkDialogComponent } from './hyperlink-dialog/hyperlink-dialog.component';
-import { MusicDialogComponent } from './music-dialog/music-dialog.component';
 import { PictureDialogComponent } from './picture-dialog/picture-dialog.component';
 
 @Component({
@@ -258,27 +257,9 @@ export class ContentManagerComponent implements OnInit {
     });
   }
 
-  private openMusicUploadDialog()
-  {
-    return this.matDialog.open(MusicDialogComponent, {
-      width: '400px',
-      hasBackdrop: true,
-      panelClass: 'dialog-panel',
-      backdropClass: 'dark-backdrop',
-      data: {}
-    }) 
-  }
-
   media_insertAudiotrack()
   {
-    const dialogRef = this.openMusicUploadDialog();
-
-    const musicObtained = dialogRef.afterClosed().subscribe(
-      (response: Album) => {
-        this.postModel.media = [...this.postModel.media, ...response.music];
-        musicObtained.unsubscribe();
-      }
-    );
+    // route to musicCreatePage
   }
 
   media_insertModel3D()
